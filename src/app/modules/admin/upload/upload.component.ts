@@ -4,7 +4,8 @@ import {LigneReleve} from '../../../mock-api/common/relevebancaire/ligne-releve'
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {RelevebancaireService} from '../../services/relevebancaire.service';
 import { FuseCardComponent } from '@fuse/components/card';
-import {MatTableDataSource} from "@angular/material/table";
+import {MatTableDataSource} from '@angular/material/table';
+import {FileData} from '../../../mock-api/common/filedata/file-data';
 
 @Component({
     selector     : 'upload',
@@ -22,6 +23,8 @@ export class UploadComponent
     filelastModifiedDate: string;
     fileType: string;
     data: any;
+
+    fileData: FileData;
 
     recentTransactionsDataSource: MatTableDataSource<any> = new MatTableDataSource();
     csvRecords: any;
@@ -60,6 +63,8 @@ export class UploadComponent
         this.fileName = $event.target.files[0].name;
         this.fileType = $event.target.files[0].type;
         this.filelastModifiedDate = new Date($event.target.files[0].lastModified).toLocaleDateString();
+
+        console.log(this.fileName, this.fileType);
 
         console.log('submitted here');
         const file = $event.target.files[0];
