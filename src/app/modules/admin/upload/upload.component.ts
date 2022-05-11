@@ -7,6 +7,7 @@ import { FuseCardComponent } from '@fuse/components/card';
 import {MatTableDataSource} from '@angular/material/table';
 import {FileData} from '../../../mock-api/common/filedata/file-data';
 
+
 @Component({
     selector     : 'upload',
     templateUrl  : './upload.component.html',
@@ -23,7 +24,6 @@ export class UploadComponent
     filelastModifiedDate: string;
     fileType: string;
     data: any;
-
     fileData: FileData;
 
     recentTransactionsDataSource: MatTableDataSource<any> = new MatTableDataSource();
@@ -100,6 +100,7 @@ export class UploadComponent
     }
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     onSubmit() {
+
 
 
 

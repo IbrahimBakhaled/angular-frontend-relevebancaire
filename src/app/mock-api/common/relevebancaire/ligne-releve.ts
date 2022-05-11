@@ -1,5 +1,6 @@
 export class LigneReleve {
 
+    ligneReleveId!: number;
     rib!: string;
     numCheck!: string;
     operationNature!: string;
@@ -9,5 +10,5 @@ export class LigneReleve {
     creditDebit!: string;
     refCdg!: number;
     refPaiment!: string;
-    modePaiment! : string;
+    modePaiment!: string;
 }

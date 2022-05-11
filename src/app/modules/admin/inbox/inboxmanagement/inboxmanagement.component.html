@@ -1,0 +1,348 @@
+<div class="flex flex-col flex-auto min-w-0">
+
+    <div class="bg-card">
+        <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
+            <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 my-8 sm:my-12">
+
+                <div class="flex flex-auto items-center min-w-0">
+                    <div class="flex-0 w-16 h-16 rounded-full overflow-hidden">
+                    </div>
+                    <div class="flex flex-col min-w-0 ml-4">
+                        <ng-container>
+                            <div class="text-2xl md:text-5xl font-semibold tracking-tight leading-7 md:leading-snug truncate">Task Management section.</div>
+                        </ng-container>
+                        <div class="flex items-center">
+                            <mat-icon
+                                class="icon-size-5"
+                                [svgIcon]="'heroicons_solid:adjustments'"></mat-icon>
+                            <div class="ml-1.5 leading-6 truncate text-secondary">Releve bancaire management</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
+
+                    <a
+                        mat-stroked-button
+                        [routerLink]="['..']">
+                        <mat-icon
+                            class="icon-size-5 mr-2"
+                            [svgIcon]="'heroicons_solid:view-boards'"></mat-icon>
+                        Back to tasks
+                    </a>
+
+                </div>
+
+
+                </div>
+            </div>
+    </div>
+
+    <div class="flex-auto border-t -mt-px pt-4 sm:pt-6">
+            <div class="w-full max-w-screen-xl mx-auto">
+                <mat-tab-group
+                    class="sm:px-2"
+                    [animationDuration]="'0'">
+
+                    <mat-tab label="Releve Bancaire">
+                        <ng-template matTabContent>
+
+                            <div class="grid grid-cols-1 xl:grid-cols-2 gap-8 w-full mt-8">
+                                <!-- Recent transactions table -->
+                                <div class="xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
+                                    <div class="p-6">
+                                        <div class="mr-4 text-lg font-medium tracking-tight leading-6 truncate"></div>
+<!--                                        <div class="text-secondary font-medium">Releve bancaire informations: </div>-->
+                                        <div class="mr-4 text-lg font-medium tracking-tight leading-6 truncate">Releve Bancaire informations :</div>
+                                    </div>
+
+                                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-8 w-full mt-8">
+                                        <div class="flex flex-col mx-6 my-3">
+                                        <div class="text-secondary font-medium">Releve bancaire id : </div>
+                                        </div>
+
+                                        <div class="flex flex-col mx-6 my-3">
+                                            <div class="text-secondary font-medium"> {{this.releveBancaire.releveBancaireId}} </div>
+                                        </div>
+
+                                        <div class="flex flex-col mx-6 my-3">
+                                            <div class="text-secondary font-medium">Date reception : </div>
+
+                                        </div>
+                                        <div class="flex flex-col mx-6 my-3">
+                                            <div class="text-secondary font-medium">{{this.releveBancaire.dateReception}}</div>
+
+                                        </div>
+                                        <div class="flex flex-col mx-6 my-3">
+                                            <div class="text-secondary font-medium">Label : </div>
+
+                                        </div>
+                                        <div class="flex flex-col mx-6 my-3">
+                                            <div class="text-secondary font-medium"> {{this.releveBancaire.label}} </div>
+
+                                        </div>
+                                        <div class="flex flex-col mx-6 my-3">
+                                            <div class="text-secondary font-medium">Nombres de lignes : </div>
+
+                                        </div>
+                                        <div class="flex flex-col mx-6 my-3">
+                                            <div class="text-secondary font-medium">{{this.releveBancaire.nbrLignes}} </div>
+
+                                        </div>
+                                        <div class="flex flex-col mx-6 my-3">
+                                            <div class="text-secondary font-medium">Nombres des operations credits : </div>
+
+                                        </div>
+                                        <div class="flex flex-col mx-6 my-3">
+                                            <div class="text-secondary font-medium"> {{this.releveBancaire.nbrOperationCredit}} </div>
+
+                                        </div>
+                                        <div class="flex flex-col mx-6 my-3">
+                                            <div class="text-secondary font-medium">Nombres des operation debits :  </div>
+
+                                        </div>
+                                        <div class="flex flex-col mx-6 my-3">
+                                            <div class="text-secondary font-medium"> {{this.releveBancaire.nbrOperationDebit}}</div>
+
+                                        </div>
+
+                                        <div class="flex flex-col mx-6 my-3">
+                                            <div class="text-secondary font-medium">Solde Initial : </div>
+
+                                        </div>
+                                        <div class="flex flex-col mx-6 my-3">
+                                            <div class="text-secondary font-medium"> {{this.releveBancaire.soldeInitial}}</div>
+
+                                        </div>
+                                        <div class="flex flex-col mx-6 my-3">
+                                            <div class="text-secondary font-medium">Solde Final : </div>
+
+                                        </div>
+                                        <div class="flex flex-col mx-6 my-3">
+                                            <div class="text-secondary font-medium">{{this.releveBancaire.soleFinal}} </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </mat-tab>
+                    <mat-tab label="Les lignes de releve bancaire">
+                        <ng-template matTabContent>
+                            <div class="grid grid-cols-1 xl:grid-cols-1 gap-8 w-full mt-8">
+
+                                <div class="xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
+                                    <div class="p-6">
+                                        <div class="mr-4 text-lg font-medium tracking-tight leading-6 truncate">Recent transactions</div>
+                                        <div class="text-secondary font-medium">1 pending, 4 completed</div>
+                                    </div>
+                                    <div class="overflow-x-auto mx-6">
+                                        <table
+                                            class="w-full bg-transparent"
+                                            mat-table
+                                            matSort
+                                            [dataSource]="ligneReleves"
+                                            [trackBy]="trackByFn">
+
+                                            <!-- Transaction ID -->
+                                            <ng-container matColumnDef="id">
+                                                <th
+                                                    mat-header-cell
+                                                    mat-sort-header
+                                                    *matHeaderCellDef>
+                                                    ID
+                                                </th>
+                                                <td
+                                                    mat-cell
+                                                    *matCellDef="let ligneReleve">
+                                <span class="pr-6 font-medium text-sm text-secondary whitespace-nowrap">
+                                    {{ligneReleve.ligneReleveId}}
+                                </span>
+                                                </td>
+                                            </ng-container>
+
+                                            <!-- Date -->
+                                            <ng-container matColumnDef="credit debit">
+                                                <th
+                                                    mat-header-cell
+                                                    mat-sort-header
+                                                    *matHeaderCellDef>
+                                                    Credit debit
+                                                </th>
+                                                <td
+                                                    mat-cell
+                                                    *matCellDef="let ligneReleve">
+                                <span class="pr-6 whitespace-nowrap">
+                                    {{ligneReleve.creditDebit}}
+                                </span>
+                                                </td>
+                                            </ng-container>
+
+                                            <!-- Name -->
+                                            <ng-container matColumnDef="date operation">
+                                                <th
+                                                    mat-header-cell
+                                                    mat-sort-header
+                                                    *matHeaderCellDef>
+                                                    Date operation
+                                                </th>
+                                                <td
+                                                    mat-cell
+                                                    *matCellDef="let ligneReleve">
+                                <span class="pr-6 whitespace-nowrap">
+                                    {{ligneReleve.dateOperation}}
+                                </span>
+                                                </td>
+                                            </ng-container>
+
+                                            <!-- Amount -->
+                                            <ng-container matColumnDef="date value">
+                                                <th
+                                                    mat-header-cell
+                                                    mat-sort-header
+                                                    *matHeaderCellDef>
+                                                    Date value
+                                                </th>
+                                                <td
+                                                    mat-cell
+                                                    *matCellDef="let ligneReleve">
+                                <span class="leading-relaxed whitespace-nowrap">
+                                    {{ligneReleve.dateValue}}
+                                </span>
+                                                </td>
+                                            </ng-container>
+
+                                            <!-- Status -->
+                                            <ng-container matColumnDef="mode paiment">
+                                                <th
+                                                    mat-header-cell
+                                                    mat-sort-header
+                                                    *matHeaderCellDef>
+                                                    Mode paiment
+                                                </th>
+                                                <td
+                                                    mat-cell
+                                                    *matCellDef="let ligneReleve">
+                                    <span class="leading-relaxed whitespace-nowrap">{{ligneReleve.modePaiment}}</span>
+                                                </td>
+                                            </ng-container>
+
+                                            <!-- Footer -->
+                                            <ng-container matColumnDef="montant">
+                                                <th
+                                                    mat-header-cell
+                                                    mat-sort-header
+                                                    *matHeaderCellDef>
+                                                    Montant
+                                                </th>
+                                                <td
+                                                    mat-cell
+                                                    *matCellDef="let ligneReleve">
+                                <span class="pr-6 font-medium whitespace-nowrap">
+                                    {{ligneReleve.montant}}
+                                </span>
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="numero cheque">
+                                                <th
+                                                    mat-header-cell
+                                                    mat-sort-header
+                                                    *matHeaderCellDef>
+                                                    Numero cheque
+                                                </th>
+                                                <td
+                                                    mat-cell
+                                                    *matCellDef="let ligneReleve">
+                                <span class="pr-6 font-medium whitespace-nowrap">
+                                    {{ligneReleve.numCheck}}
+                                </span>
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="operation nature">
+                                                <th
+                                                    mat-header-cell
+                                                    mat-sort-header
+                                                    *matHeaderCellDef>
+                                                    Operation nature
+                                                </th>
+                                                <td
+                                                    mat-cell
+                                                    *matCellDef="let ligneReleve">
+                                <span class="pr-6 font-medium whitespace-nowrap">
+                                    {{ligneReleve.operationNature}}
+                                </span>
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="ref cdg">
+                                                <th
+                                                    mat-header-cell
+                                                    mat-sort-header
+                                                    *matHeaderCellDef>
+                                                    Ref cdg
+                                                </th>
+                                                <td
+                                                    mat-cell
+                                                    *matCellDef="let ligneReleve">
+                                <span class="pr-6 font-medium whitespace-nowrap">
+                                    {{ligneReleve.refCdg}}
+                                </span>
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="ref paiment">
+                                                <th
+                                                    mat-header-cell
+                                                    mat-sort-header
+                                                    *matHeaderCellDef>
+                                                    Ref Paiment
+                                                </th>
+                                                <td
+                                                    mat-cell
+                                                    *matCellDef="let ligneReleve">
+                                <span class="pr-6 font-medium whitespace-nowrap">
+                                    {{ligneReleve.refPaiment}}
+                                </span>
+                                                </td>
+                                            </ng-container>
+                                            <ng-container matColumnDef="rib">
+                                                <th
+                                                    mat-header-cell
+                                                    mat-sort-header
+                                                    *matHeaderCellDef>
+                                                    Rib
+                                                </th>
+                                                <td
+                                                    mat-cell
+                                                    *matCellDef="let ligneReleve">
+                                <span class="pr-6 font-medium whitespace-nowrap">
+                                    {{ligneReleve.rib}}
+                                </span>
+                                                </td>
+                                            </ng-container>
+
+
+                                            <tr
+                                                mat-header-row
+                                                *matHeaderRowDef="recentTransactionsTableColumns"></tr>
+                                            <tr
+                                                class="order-row h-16"
+                                                mat-row
+                                                *matRowDef="let row; columns: recentTransactionsTableColumns;"></tr>
+                                        </table>
+                                        <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]"
+                                                       showFirstLastButtons>
+                                        </mat-paginator>
+                                    </div>
+                                </div>
+
+                            </div>
+                                    <div class="mt-11 mb-10 border-t"></div>
+                        </ng-template>
+                    </mat-tab>
+
+                </mat-tab-group>
+            </div>
+
+    </div>
+
+
+</div>

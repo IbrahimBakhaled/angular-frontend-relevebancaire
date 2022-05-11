@@ -13,15 +13,18 @@ import {MatButtonModule} from '@angular/material/button';
 import {MaterialFileInputModule} from 'ngx-material-file-input';
 import {MatTabsModule} from '@angular/material/tabs';
 import { FuseCardModule } from '@fuse/components/card';
-import {MatMenuModule} from "@angular/material/menu";
-import {NgApexchartsModule} from "ng-apexcharts";
-import {MatTableModule} from "@angular/material/table";
-import {CommonModule} from "@angular/common";
+import {MatMenuModule} from '@angular/material/menu';
+import {NgApexchartsModule} from 'ng-apexcharts';
+import {MatTableModule} from '@angular/material/table';
+import {CommonModule} from '@angular/common';
+import {MatSortModule} from '@angular/material/sort';
+
 const uploadRoutes: Route[] = [
     {
         path     : '',
         component: UploadComponent
-    }
+    },
+
 ];
 
 @NgModule({
@@ -45,7 +48,8 @@ const uploadRoutes: Route[] = [
         MatMenuModule,
         NgApexchartsModule,
         MatTableModule,
-        CommonModule
+        CommonModule,
+        MatSortModule
     ]
 })
 export class UploadModule
