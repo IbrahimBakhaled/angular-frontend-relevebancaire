@@ -15,6 +15,7 @@ import {RelevebancaireService} from '../../../services/relevebancaire.service';
 import {ReleveBancaire} from '../../../../mock-api/common/relevebancaire/releve-bancaire';
 import {LigneReleve} from '../../../../mock-api/common/relevebancaire/ligne-releve';
 import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from "@angular/material/sort";
 @Component({
   selector: 'app-inboxmanagement',
   templateUrl: './inboxmanagement.component.html',
@@ -25,13 +26,15 @@ import {MatPaginator} from '@angular/material/paginator';
 export class InboxmanagementComponent implements OnInit, OnDestroy {
 
 
-    @ViewChild('paginator') paginator: MatPaginator;
+    @ViewChild(MatPaginator) paginator: MatPaginator;
+    @ViewChild(MatSort) sort: MatSort;
     task: Task;
     releveBancaire: ReleveBancaire;
-    ligneReleves: LigneReleve[];
-    recentTransactionsDataSource = new MatTableDataSource();
-    recentTransactionsTableColumns: string[] = ['id', 'credit debit', 'date operation', 'date value', 'mode paiment',
-        'montant', 'numero cheque', 'operation nature', 'ref cdg','ref paiment','rib'];
+    ligneReleves: LigneReleve[]= [];
+    dataSource= new MatTableDataSource<LigneReleve>(this.ligneReleves);
+    // dataSource = new MatTableDataSource(this.ligneReleves);
+    displayedColumns: string[] = ['ligneReleveId', 'creditDebit', 'dateOperation', 'dateValue', 'modePaiment',
+        'montant', 'numCheck', 'operationNature', 'refCdg','refPaiment','rib'];
     selectedObject: string = 'Releve Bancaire';
     tasks: Task[];
     data: any;
@@ -49,7 +52,7 @@ export class InboxmanagementComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
       this.displayTasks();
-          this.recentTransactionsDataSource.paginator = this.paginator;
+          // this.dataSource.paginator = this.paginator;
       this._inboxServcie.task$
       .pipe(takeUntil(this._unsubscribeAll))
       .subscribe((task: Task) => {
@@ -62,11 +65,17 @@ export class InboxmanagementComponent implements OnInit, OnDestroy {
 
       this.displayTaskByIdDetails();
       this.displayReleveBancaireById();
+      // console.log('DATASOUCE ', this.dataSource);
 
   }
     trackByFn(index: number, item: any): any
     {
         return item.id || index;
+    }
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+    selectedTabChange(event: any){
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
     }
 
 
@@ -88,6 +97,9 @@ export class InboxmanagementComponent implements OnInit, OnDestroy {
           (data) => {
               this.releveBancaire = data;
               this.ligneReleves= data.lignereleve;
+              this.dataSource= new MatTableDataSource(this.ligneReleves);
+              this.dataSource.paginator = this.paginator;
+              this.dataSource.sort = this.sort;
               console.log('logging this.displayReleveBancaireById();' , data);
           }
       );

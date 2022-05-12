@@ -40,7 +40,7 @@
 
     <div class="flex-auto border-t -mt-px pt-4 sm:pt-6">
             <div class="w-full max-w-screen-xl mx-auto">
-                <mat-tab-group
+                <mat-tab-group  (selectedTabChange)="selectedTabChange($event)"
                     class="sm:px-2"
                     [animationDuration]="'0'">
 
@@ -127,222 +127,221 @@
                             </div>
                         </ng-template>
                     </mat-tab>
-                    <mat-tab label="Les lignes de releve bancaire">
-                        <ng-template matTabContent>
-                            <div class="grid grid-cols-1 xl:grid-cols-1 gap-8 w-full mt-8">
+                    <mat-tab label="Les lignes de releve bancaire" >
+                                <ng-template matTabContent>
+                                    <div class="grid grid-cols-1 xl:grid-cols-1 gap-8 w-full mt-8">
 
-                                <div class="xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
-                                    <div class="p-6">
-                                        <div class="mr-4 text-lg font-medium tracking-tight leading-6 truncate">Recent transactions</div>
-                                        <div class="text-secondary font-medium">1 pending, 4 completed</div>
-                                    </div>
-                                    <div class="overflow-x-auto mx-6">
-                                        <table
-                                            class="w-full bg-transparent"
-                                            mat-table
-                                            matSort
-                                            [dataSource]="ligneReleves"
-                                            [trackBy]="trackByFn">
+                                        <div class="xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
+                                            <div class="p-6">
+                                                <div class="mr-4 text-lg font-medium tracking-tight leading-6 truncate">Recent transactions</div>
+                                                <div class="text-secondary font-medium">1 pending, 4 completed</div>
+                                            </div>
+                                            <div class="overflow-x-auto mx-6">
+                                                <table
+                                                    class="w-full bg-transparent"
+                                                    mat-table
+                                                    matSort
+                                                    [dataSource]= "dataSource"
+                                                    [trackBy]="trackByFn">
 
-                                            <!-- Transaction ID -->
-                                            <ng-container matColumnDef="id">
-                                                <th
-                                                    mat-header-cell
-                                                    mat-sort-header
-                                                    *matHeaderCellDef>
-                                                    ID
-                                                </th>
-                                                <td
-                                                    mat-cell
-                                                    *matCellDef="let ligneReleve">
+                                                    <!-- Transaction ID -->
+                                                    <ng-container matColumnDef="ligneReleveId">
+                                                        <th
+                                                            mat-header-cell
+                                                            mat-sort-header
+                                                            *matHeaderCellDef>
+                                                            ID
+                                                        </th>
+                                                        <td
+                                                            mat-cell
+                                                            *matCellDef="let ligneReleve">
                                 <span class="pr-6 font-medium text-sm text-secondary whitespace-nowrap">
                                     {{ligneReleve.ligneReleveId}}
                                 </span>
-                                                </td>
-                                            </ng-container>
+                                                        </td>
+                                                    </ng-container>
 
-                                            <!-- Date -->
-                                            <ng-container matColumnDef="credit debit">
-                                                <th
-                                                    mat-header-cell
-                                                    mat-sort-header
-                                                    *matHeaderCellDef>
-                                                    Credit debit
-                                                </th>
-                                                <td
-                                                    mat-cell
-                                                    *matCellDef="let ligneReleve">
+                                                    <!-- Date -->
+                                                    <ng-container matColumnDef="creditDebit">
+                                                        <th
+                                                            mat-header-cell
+                                                            mat-sort-header
+                                                            *matHeaderCellDef>
+                                                            Credit debit
+                                                        </th>
+                                                        <td
+                                                            mat-cell
+                                                            *matCellDef="let ligneReleve">
                                 <span class="pr-6 whitespace-nowrap">
                                     {{ligneReleve.creditDebit}}
                                 </span>
-                                                </td>
-                                            </ng-container>
+                                                        </td>
+                                                    </ng-container>
 
-                                            <!-- Name -->
-                                            <ng-container matColumnDef="date operation">
-                                                <th
-                                                    mat-header-cell
-                                                    mat-sort-header
-                                                    *matHeaderCellDef>
-                                                    Date operation
-                                                </th>
-                                                <td
-                                                    mat-cell
-                                                    *matCellDef="let ligneReleve">
+                                                    <!-- Name -->
+                                                    <ng-container matColumnDef="dateOperation">
+                                                        <th
+                                                            mat-header-cell
+                                                            mat-sort-header
+                                                            *matHeaderCellDef>
+                                                            Date operation
+                                                        </th>
+                                                        <td
+                                                            mat-cell
+                                                            *matCellDef="let ligneReleve">
                                 <span class="pr-6 whitespace-nowrap">
                                     {{ligneReleve.dateOperation}}
                                 </span>
-                                                </td>
-                                            </ng-container>
+                                                        </td>
+                                                    </ng-container>
 
-                                            <!-- Amount -->
-                                            <ng-container matColumnDef="date value">
-                                                <th
-                                                    mat-header-cell
-                                                    mat-sort-header
-                                                    *matHeaderCellDef>
-                                                    Date value
-                                                </th>
-                                                <td
-                                                    mat-cell
-                                                    *matCellDef="let ligneReleve">
+                                                    <!-- Amount -->
+                                                    <ng-container matColumnDef="dateValue">
+                                                        <th
+                                                            mat-header-cell
+                                                            mat-sort-header
+                                                            *matHeaderCellDef>
+                                                            Date value
+                                                        </th>
+                                                        <td
+                                                            mat-cell
+                                                            *matCellDef="let ligneReleve">
                                 <span class="leading-relaxed whitespace-nowrap">
                                     {{ligneReleve.dateValue}}
                                 </span>
-                                                </td>
-                                            </ng-container>
+                                                        </td>
+                                                    </ng-container>
 
-                                            <!-- Status -->
-                                            <ng-container matColumnDef="mode paiment">
-                                                <th
-                                                    mat-header-cell
-                                                    mat-sort-header
-                                                    *matHeaderCellDef>
-                                                    Mode paiment
-                                                </th>
-                                                <td
-                                                    mat-cell
-                                                    *matCellDef="let ligneReleve">
-                                    <span class="leading-relaxed whitespace-nowrap">{{ligneReleve.modePaiment}}</span>
-                                                </td>
-                                            </ng-container>
+                                                    <!-- Status -->
+                                                    <ng-container matColumnDef="modePaiment">
+                                                        <th
+                                                            mat-header-cell
+                                                            mat-sort-header
+                                                            *matHeaderCellDef>
+                                                            Mode paiment
+                                                        </th>
+                                                        <td
+                                                            mat-cell
+                                                            *matCellDef="let ligneReleve">
+                                                            <span class="leading-relaxed whitespace-nowrap">{{ligneReleve.modePaiment}}</span>
+                                                        </td>
+                                                    </ng-container>
 
-                                            <!-- Footer -->
-                                            <ng-container matColumnDef="montant">
-                                                <th
-                                                    mat-header-cell
-                                                    mat-sort-header
-                                                    *matHeaderCellDef>
-                                                    Montant
-                                                </th>
-                                                <td
-                                                    mat-cell
-                                                    *matCellDef="let ligneReleve">
+                                                    <!-- Footer -->
+                                                    <ng-container matColumnDef="montant">
+                                                        <th
+                                                            mat-header-cell
+                                                            mat-sort-header
+                                                            *matHeaderCellDef>
+                                                            Montant
+                                                        </th>
+                                                        <td
+                                                            mat-cell
+                                                            *matCellDef="let ligneReleve">
                                 <span class="pr-6 font-medium whitespace-nowrap">
                                     {{ligneReleve.montant}}
                                 </span>
-                                                </td>
-                                            </ng-container>
-                                            <ng-container matColumnDef="numero cheque">
-                                                <th
-                                                    mat-header-cell
-                                                    mat-sort-header
-                                                    *matHeaderCellDef>
-                                                    Numero cheque
-                                                </th>
-                                                <td
-                                                    mat-cell
-                                                    *matCellDef="let ligneReleve">
+                                                        </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="numCheck">
+                                                        <th
+                                                            mat-header-cell
+                                                            mat-sort-header
+                                                            *matHeaderCellDef>
+                                                            Numero cheque
+                                                        </th>
+                                                        <td
+                                                            mat-cell
+                                                            *matCellDef="let ligneReleve">
                                 <span class="pr-6 font-medium whitespace-nowrap">
                                     {{ligneReleve.numCheck}}
                                 </span>
-                                                </td>
-                                            </ng-container>
-                                            <ng-container matColumnDef="operation nature">
-                                                <th
-                                                    mat-header-cell
-                                                    mat-sort-header
-                                                    *matHeaderCellDef>
-                                                    Operation nature
-                                                </th>
-                                                <td
-                                                    mat-cell
-                                                    *matCellDef="let ligneReleve">
+                                                        </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="operationNature">
+                                                        <th
+                                                            mat-header-cell
+                                                            mat-sort-header
+                                                            *matHeaderCellDef>
+                                                            Operation nature
+                                                        </th>
+                                                        <td
+                                                            mat-cell
+                                                            *matCellDef="let ligneReleve">
                                 <span class="pr-6 font-medium whitespace-nowrap">
                                     {{ligneReleve.operationNature}}
                                 </span>
-                                                </td>
-                                            </ng-container>
-                                            <ng-container matColumnDef="ref cdg">
-                                                <th
-                                                    mat-header-cell
-                                                    mat-sort-header
-                                                    *matHeaderCellDef>
-                                                    Ref cdg
-                                                </th>
-                                                <td
-                                                    mat-cell
-                                                    *matCellDef="let ligneReleve">
+                                                        </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="refCdg">
+                                                        <th
+                                                            mat-header-cell
+                                                            mat-sort-header
+                                                            *matHeaderCellDef>
+                                                            Ref cdg
+                                                        </th>
+                                                        <td
+                                                            mat-cell
+                                                            *matCellDef="let ligneReleve">
                                 <span class="pr-6 font-medium whitespace-nowrap">
                                     {{ligneReleve.refCdg}}
                                 </span>
-                                                </td>
-                                            </ng-container>
-                                            <ng-container matColumnDef="ref paiment">
-                                                <th
-                                                    mat-header-cell
-                                                    mat-sort-header
-                                                    *matHeaderCellDef>
-                                                    Ref Paiment
-                                                </th>
-                                                <td
-                                                    mat-cell
-                                                    *matCellDef="let ligneReleve">
+                                                        </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="refPaiment">
+                                                        <th
+                                                            mat-header-cell
+                                                            mat-sort-header
+                                                            *matHeaderCellDef>
+                                                            Ref Paiment
+                                                        </th>
+                                                        <td
+                                                            mat-cell
+                                                            *matCellDef="let ligneReleve">
                                 <span class="pr-6 font-medium whitespace-nowrap">
                                     {{ligneReleve.refPaiment}}
                                 </span>
-                                                </td>
-                                            </ng-container>
-                                            <ng-container matColumnDef="rib">
-                                                <th
-                                                    mat-header-cell
-                                                    mat-sort-header
-                                                    *matHeaderCellDef>
-                                                    Rib
-                                                </th>
-                                                <td
-                                                    mat-cell
-                                                    *matCellDef="let ligneReleve">
+                                                        </td>
+                                                    </ng-container>
+                                                    <ng-container matColumnDef="rib">
+                                                        <th
+                                                            mat-header-cell
+                                                            mat-sort-header
+                                                            *matHeaderCellDef>
+                                                            Rib
+                                                        </th>
+                                                        <td
+                                                            mat-cell
+                                                            *matCellDef="let ligneReleve">
                                 <span class="pr-6 font-medium whitespace-nowrap">
                                     {{ligneReleve.rib}}
                                 </span>
-                                                </td>
-                                            </ng-container>
+                                                        </td>
+                                                    </ng-container>
 
 
-                                            <tr
-                                                mat-header-row
-                                                *matHeaderRowDef="recentTransactionsTableColumns"></tr>
-                                            <tr
-                                                class="order-row h-16"
-                                                mat-row
-                                                *matRowDef="let row; columns: recentTransactionsTableColumns;"></tr>
-                                        </table>
-                                        <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]"
-                                                       showFirstLastButtons>
-                                        </mat-paginator>
+                                                    <tr
+                                                        mat-header-row
+                                                        *matHeaderRowDef="displayedColumns"></tr>
+                                                    <tr
+                                                        class="order-row h-16"
+                                                        mat-row
+                                                        *matRowDef="let row; columns: displayedColumns;"></tr>
+                                                </table>
+                                                <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                                                               showFirstLastButtons>
+                                                </mat-paginator>
+                                            </div>
+                                        </div>
+
                                     </div>
-                                </div>
-
-                            </div>
                                     <div class="mt-11 mb-10 border-t"></div>
-                        </ng-template>
-                    </mat-tab>
+                                </ng-template>
+                            </mat-tab>
 
                 </mat-tab-group>
             </div>
 
-    </div>
 
 
 </div>
