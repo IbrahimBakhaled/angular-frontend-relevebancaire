@@ -4,18 +4,20 @@ import {
     ChangeDetectorRef,
     Component, OnDestroy,
     OnInit, ViewChild,
-    ViewEncapsulation
+    ViewEncapsulation, Input
 } from '@angular/core';
 import {Task} from '../../../../mock-api/common/activiti-workflow/task';
 import {ActivitiworkflowService} from '../../../services/activitiworkflow.service';
 import {InboxServiceService} from '../inbox-service.service';
-import {mergeMap, Subject, takeUntil, tap} from 'rxjs';
+import {mergeMap, pipe, Subject, takeUntil, tap} from 'rxjs';
 import {MatTableDataSource} from '@angular/material/table';
 import {RelevebancaireService} from '../../../services/relevebancaire.service';
 import {ReleveBancaire} from '../../../../mock-api/common/relevebancaire/releve-bancaire';
 import {LigneReleve} from '../../../../mock-api/common/relevebancaire/ligne-releve';
 import {MatPaginator} from '@angular/material/paginator';
-import {MatSort} from "@angular/material/sort";
+import {MatSort} from '@angular/material/sort';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+
 @Component({
   selector: 'app-inboxmanagement',
   templateUrl: './inboxmanagement.component.html',
@@ -34,11 +36,16 @@ export class InboxmanagementComponent implements OnInit, OnDestroy {
     dataSource= new MatTableDataSource<LigneReleve>(this.ligneReleves);
     // dataSource = new MatTableDataSource(this.ligneReleves);
     displayedColumns: string[] = ['ligneReleveId', 'creditDebit', 'dateOperation', 'dateValue', 'modePaiment',
-        'montant', 'numCheck', 'operationNature', 'refCdg','refPaiment','rib'];
+        'montant', 'numCheck', 'operationNature', 'refCdg','refPaiment','rib', 'details'];
     selectedObject: string = 'Releve Bancaire';
+    selectedLigneReleve: LigneReleve | null = null;
+    selectedLigneReleveForm: FormGroup;
     tasks: Task[];
     data: any;
     releveBancaireId: number;
+    isLoading: boolean = false;
+
+    _fileReader = new FileReader();
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
 
@@ -47,7 +54,8 @@ export class InboxmanagementComponent implements OnInit, OnDestroy {
   constructor(private activitiWorkflowService: ActivitiworkflowService,
               private _inboxServcie: InboxServiceService,
               private _changeDetectorRef: ChangeDetectorRef,
-              private _relebeBancaireService: RelevebancaireService) { }
+              private _relebeBancaireService: RelevebancaireService,
+              private _formBuilder: FormBuilder) { }
 
 
   ngOnInit(): void {
@@ -65,13 +73,21 @@ export class InboxmanagementComponent implements OnInit, OnDestroy {
 
       this.displayTaskByIdDetails();
       this.displayReleveBancaireById();
-      // console.log('DATASOUCE ', this.dataSource);
+
+
+
+      this.selectedLigneReleveForm = this._formBuilder.group({
+          ligneReleveId   : [''],
+          rib             : [''],
+          numCheck             : [''],
+          operationNature      : [''],
+          creditDebit            : [''],
+          refCdg           : [''],
+          refPaiment            : [''],
+      });
 
   }
-    trackByFn(index: number, item: any): any
-    {
-        return item.id || index;
-    }
+
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     selectedTabChange(event: any){
         this.dataSource.paginator = this.paginator;
@@ -115,6 +131,57 @@ export class InboxmanagementComponent implements OnInit, OnDestroy {
             }
         );
         // console.log('showing task Name ' + this.taskName);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    toggleDetails(ligneReleveId: number): void
+    {
+        // If the ligne de releve is already selected...
+        if ( this.selectedLigneReleve && this.selectedLigneReleve.ligneReleveId === ligneReleveId )
+        {
+            // Close the details
+            this.closeDetails();
+            return;
+        }
+
+        let _ligneReleveId: number |null = null;
+
+        this.ligneReleves.map((l) => {
+           _ligneReleveId= l.ligneReleveId;
+        });
+
+        // Get the ligne releve by id
+        this._relebeBancaireService.getReleveBancaireById(this.task.releveBancaireId)
+        .subscribe((data) => {
+
+            // Set the selected product
+            this.selectedLigneReleve = data.lignereleve.find(i => i.ligneReleveId === ligneReleveId);
+
+            // Mark for check
+            this._changeDetectorRef.markForCheck();
+        });
+    }
+
+    closeDetails(): void
+    {
+        this.selectedLigneReleve = null;
+    }
+
+    trackByFn(index: number, item: any): any
+    {
+        return item.id || index;
     }
 
     ngOnDestroy(): void {

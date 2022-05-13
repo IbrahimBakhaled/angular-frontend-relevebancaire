@@ -25,6 +25,9 @@ export class UploadComponent
     fileType: string;
     data: any;
     fileData: FileData;
+    _fileReader: any;
+    fileUrl: any;
+    cat = '';
 
     recentTransactionsDataSource: MatTableDataSource<any> = new MatTableDataSource();
     csvRecords: any;
@@ -49,11 +52,13 @@ export class UploadComponent
                 nbrOperationDebit: new FormControl('')
             })
         });
+        console.log('this.cat ', this.cat);
     }
     trackByFn(index: number, item: any): any
     {
         return item.id || index;
     }
+
 
 
 
@@ -63,6 +68,8 @@ export class UploadComponent
         this.fileName = $event.target.files[0].name;
         this.fileType = $event.target.files[0].type;
         this.filelastModifiedDate = new Date($event.target.files[0].lastModified).toLocaleDateString();
+        this.fileUrl =  $event.target.files[0].url;
+        console.log('this.fileUrl ', this.fileUrl)
 
         console.log(this.fileName, this.fileType);
 
@@ -71,11 +78,19 @@ export class UploadComponent
         const fileReader = new FileReader();
         fileReader.onload = (e) => {
             const data = fileReader.result;
-            // console.log("FileREAAAAAAAAAAADER \n" + data);
+            this.storeResults(data);
+            this._fileReader = data;
+            // console.log('FileREAAAAAAAAAAADER \n', data);
+            console.log(this._fileReader);
             this.parseData(data);
         };
         fileReader.readAsText(file);
     }
+
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+    storeResults(result) {
+    this.cat = result;
+}
 
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     parseData(data: string | ArrayBuffer | null){
@@ -128,7 +143,7 @@ export class UploadComponent
         releveBancaire.nbrLignes =this.csvRecords.length;
         releveBancaire.nbrOperationCredit = numberOfOperationCredit;
         releveBancaire.nbrOperationDebit = numberOfOperationDebit;
-        releveBancaire.label = label;
+        releveBancaire.label = this.fileName.slice(0, -4);
         releveBancaire.soldeInitial=this.csvRecords[0][6];
         releveBancaire.soleFinal = this.csvRecords[this.csvRecords.length-1][6];
         // console.log("relevebancaire solde final " + releveBancaire.soleFinal , + " __ " + releveBancaire.soldeInitial)
