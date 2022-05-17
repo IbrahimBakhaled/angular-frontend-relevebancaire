@@ -1,4 +1,4 @@
-<div class="flex flex-col flex-auto min-w-0">
+<div class="flex flex-col flex-auto min-w-0"  >
 
     <div class="bg-card">
         <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
@@ -9,7 +9,7 @@
                     </div>
                     <div class="flex flex-col min-w-0 ml-4">
                         <ng-container>
-                            <div class="text-2xl md:text-5xl font-semibold tracking-tight leading-7 md:leading-snug truncate">Task Management section.</div>
+                            <div class="text-2xl md:text-5xl font-semibold tracking-tight leading-7 md:leading-snug truncate">Section Gestion des tâches</div>
                         </ng-container>
                         <div class="flex items-center">
                             <mat-icon
@@ -47,87 +47,54 @@
                     <mat-tab label="Releve Bancaire">
                         <ng-template matTabContent>
 
-                            <div class="grid grid-cols-1 xl:grid-cols-2 gap-8 w-full mt-8">
-                                <!-- Recent transactions table -->
-                                <div class="xl:col-span-2 flex flex-col flex-auto bg-card shadow rounded-2xl overflow-hidden">
-                                    <div class="p-6">
-                                        <div class="mr-4 text-lg font-medium tracking-tight leading-6 truncate"></div>
-<!--                                        <div class="text-secondary font-medium">Releve bancaire informations: </div>-->
-                                        <div class="mr-4 text-lg font-medium tracking-tight leading-6 truncate">Releve Bancaire informations :</div>
-                                    </div>
-
-                                    <div class="grid grid-cols-1 xl:grid-cols-2 gap-8 w-full mt-8">
-                                        <div class="flex flex-col mx-6 my-3">
-                                        <div class="text-secondary font-medium">Releve bancaire id : </div>
+                            <!-- This example requires Tailwind CSS v2.0+ -->
+                            <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+                                <div class="px-4 py-5 sm:px-6">
+                                    <h3 class="text-lg leading-6 font-medium text-gray-900">Releve Bancaire Informations</h3>
+                                    <p class="mt-1 max-w-2xl text-sm text-gray-500">Informations téléchargées sur le fichier</p>
+                                </div>
+                                <div class="border-t border-gray-200 px-4 py-5 sm:p-0">
+                                    <dl class="sm:divide-y sm:divide-gray-200">
+                                        <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <dt class="text-sm font-medium text-gray-500">Releve Bancaire ID</dt>
+                                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{releveBancaire.releveBancaireId}}</dd>
+                                        </div>
+                                        <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <dt class="text-sm font-medium text-gray-500">Date Reception</dt>
+                                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{releveBancaire.dateReception}}</dd>
+                                        </div>
+                                        <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <dt class="text-sm font-medium text-gray-500">Label</dt>
+                                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{releveBancaire.label}}</dd>
+                                        </div>
+                                        <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <dt class="text-sm font-medium text-gray-500">Nombres de lignes</dt>
+                                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{releveBancaire.nbrLignes}}</dd>
+                                        </div>
+                                        <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <dt class="text-sm font-medium text-gray-500">Nombres des operation credit</dt>
+                                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{releveBancaire.nbrOperationCredit}}</dd>
+                                        </div>
+                                        <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <dt class="text-sm font-medium text-gray-500">Nombres des operation debit</dt>
+                                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{releveBancaire.nbrOperationDebit}}</dd>
+                                        </div>
+                                        <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <dt class="text-sm font-medium text-gray-500">Solde Initial</dt>
+                                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{releveBancaire.soldeInitial}}</dd>
+                                        </div>
+                                        <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <dt class="text-sm font-medium text-gray-500">Solde Finale</dt>
+                                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{releveBancaire.soleFinal}}</dd>
                                         </div>
 
-                                        <div class="flex flex-col mx-6 my-3">
-                                            <div class="text-secondary font-medium"> {{this.releveBancaire.releveBancaireId}} </div>
-                                        </div>
-
-                                        <div class="flex flex-col mx-6 my-3">
-                                            <div class="text-secondary font-medium">Date reception : </div>
-
-                                        </div>
-                                        <div class="flex flex-col mx-6 my-3">
-                                            <div class="text-secondary font-medium">{{this.releveBancaire.dateReception}}</div>
-
-                                        </div>
-                                        <div class="flex flex-col mx-6 my-3">
-                                            <div class="text-secondary font-medium">Label : </div>
-
-                                        </div>
-                                        <div class="flex flex-col mx-6 my-3">
-                                            <div class="text-secondary font-medium"> {{this.releveBancaire.label}} </div>
-
-                                        </div>
-                                        <div class="flex flex-col mx-6 my-3">
-                                            <div class="text-secondary font-medium">Nombres de lignes : </div>
-
-                                        </div>
-                                        <div class="flex flex-col mx-6 my-3">
-                                            <div class="text-secondary font-medium">{{this.releveBancaire.nbrLignes}} </div>
-
-                                        </div>
-                                        <div class="flex flex-col mx-6 my-3">
-                                            <div class="text-secondary font-medium">Nombres des operations credits : </div>
-
-                                        </div>
-                                        <div class="flex flex-col mx-6 my-3">
-                                            <div class="text-secondary font-medium"> {{this.releveBancaire.nbrOperationCredit}} </div>
-
-                                        </div>
-                                        <div class="flex flex-col mx-6 my-3">
-                                            <div class="text-secondary font-medium">Nombres des operation debits :  </div>
-
-                                        </div>
-                                        <div class="flex flex-col mx-6 my-3">
-                                            <div class="text-secondary font-medium"> {{this.releveBancaire.nbrOperationDebit}}</div>
-
-                                        </div>
-
-                                        <div class="flex flex-col mx-6 my-3">
-                                            <div class="text-secondary font-medium">Solde Initial : </div>
-
-                                        </div>
-                                        <div class="flex flex-col mx-6 my-3">
-                                            <div class="text-secondary font-medium"> {{this.releveBancaire.soldeInitial}}</div>
-
-                                        </div>
-                                        <div class="flex flex-col mx-6 my-3">
-                                            <div class="text-secondary font-medium">Solde Final : </div>
-
-                                        </div>
-                                        <div class="flex flex-col mx-6 my-3">
-                                            <div class="text-secondary font-medium">{{this.releveBancaire.soleFinal}} </div>
-
-                                        </div>
-                                    </div>
+                                    </dl>
                                 </div>
                             </div>
+
                         </ng-template>
                     </mat-tab>
-                    <mat-tab label="Les lignes de releve bancaire" >
+                    <mat-tab label="Les lignes de releve bancaire">
                                 <ng-template matTabContent>
                                     <div class="grid grid-cols-1 xl:grid-cols-1 gap-8 w-full mt-8">
 
@@ -144,42 +111,6 @@
                                                     matSort
                                                     [dataSource]= "dataSource"
                                                     [trackBy]="trackByFn">
-
-                                                    <!-- Transaction ID -->
-                                                    <ng-container matColumnDef="ligneReleveId">
-                                                        <th
-                                                            mat-header-cell
-                                                            mat-sort-header
-                                                            *matHeaderCellDef>
-                                                            ID
-                                                        </th>
-                                                        <td
-                                                            mat-cell
-                                                            *matCellDef="let ligneReleve">
-                                <span class="pr-6 font-medium text-sm text-secondary whitespace-nowrap">
-                                    {{ligneReleve.ligneReleveId}}
-                                </span>
-                                                        </td>
-                                                    </ng-container>
-
-                                                    <!-- Date -->
-                                                    <ng-container matColumnDef="creditDebit">
-                                                        <th
-                                                            mat-header-cell
-                                                            mat-sort-header
-                                                            *matHeaderCellDef>
-                                                            Credit debit
-                                                        </th>
-                                                        <td
-                                                            mat-cell
-                                                            *matCellDef="let ligneReleve">
-                                <span class="pr-6 whitespace-nowrap">
-                                    {{ligneReleve.creditDebit}}
-                                </span>
-                                                        </td>
-                                                    </ng-container>
-
-                                                    <!-- Name -->
                                                     <ng-container matColumnDef="dateOperation">
                                                         <th
                                                             mat-header-cell
@@ -244,79 +175,94 @@
                                 </span>
                                                         </td>
                                                     </ng-container>
-                                                    <ng-container matColumnDef="numCheck">
+                                                    <ng-container matColumnDef="acteur">
                                                         <th
                                                             mat-header-cell
                                                             mat-sort-header
                                                             *matHeaderCellDef>
-                                                            Numero cheque
+                                                            Acteur
                                                         </th>
                                                         <td
                                                             mat-cell
                                                             *matCellDef="let ligneReleve">
-                                <span class="pr-6 font-medium whitespace-nowrap">
-                                    {{ligneReleve.numCheck}}
+                                <span class="pr-6 font-medium whitespace-nowrap" *ngFor="let acteur of _acteurs; index as i;">
+<!--                                   <ng-container *ngIf="acteur.ligneReleve && acteur.ligneReleve.ligneReleveId === ligneReleve.ligneReleveId">{{acteur.nomActeur}} {{acteur.prenomActeur}}-->
+<!--                                       <button type="button" class="inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">-->
+<!--  &lt;!&ndash; Heroicon name: solid/plus-sm &ndash;&gt;-->
+<!--  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">-->
+<!--  <path stroke-linecap="round" stroke-linejoin="round" d="M13 7a4 4 0 11-8 0 4 4 0 018 0zM9 14a6 6 0 00-6 6v1h12v-1a6 6 0 00-6-6zM21 12h-6" />-->
+<!--</svg>-->
+<!--</button>-->
+<!--&lt;!&ndash;                                       <button (click)="removeActor(acteur.acteurId)">Remove</button>&ndash;&gt;-->
+<!--                                   </ng-container>-->
+
+                                    <div class="mt-6 flex items-center" *ngIf="acteur.ligneReleve && acteur.ligneReleve.ligneReleveId === ligneReleve.ligneReleveId">
+                <p class="ml-2 font-medium text-gray-500">{{acteur.nomActeur}} {{acteur.prenomActeur}}</p>
+
+                                        <button style="margin-left: 14px"
+                                            class="min-w-10 min-h-7 h-7 px-2 leading-6"
+                                            mat-stroked-button
+                                                (click)="removeActor(acteur.acteurId)">
+                                                                <mat-icon
+                                                                    class="icon-size-5"
+                                                                    [svgIcon]="'heroicons_solid:trash'"></mat-icon>
+                                                            </button>
+              </div>
                                 </span>
                                                         </td>
                                                     </ng-container>
-                                                    <ng-container matColumnDef="operationNature">
+                                                    <ng-container matColumnDef="swp">
                                                         <th
                                                             mat-header-cell
                                                             mat-sort-header
                                                             *matHeaderCellDef>
-                                                            Operation nature
+                                                            SWP
                                                         </th>
                                                         <td
                                                             mat-cell
                                                             *matCellDef="let ligneReleve">
                                 <span class="pr-6 font-medium whitespace-nowrap">
-                                    {{ligneReleve.operationNature}}
+
                                 </span>
                                                         </td>
                                                     </ng-container>
-                                                    <ng-container matColumnDef="refCdg">
+                                                    <ng-container matColumnDef="qualifierActeur">
                                                         <th
                                                             mat-header-cell
                                                             mat-sort-header
                                                             *matHeaderCellDef>
-                                                            Ref cdg
+                                                            Qualifier Acteur
                                                         </th>
                                                         <td
                                                             mat-cell
                                                             *matCellDef="let ligneReleve">
-                                <span class="pr-6 font-medium whitespace-nowrap">
-                                    {{ligneReleve.refCdg}}
-                                </span>
+                                                            <button
+                                                                class="min-w-10 min-h-7 h-7 px-2 leading-6"
+                                                                mat-stroked-button
+                                                                (click)="qualifierActeur(ligneReleve.ligneReleveId)">
+                                                                <mat-icon
+                                                                    class="icon-size-5"
+                                                                    [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
+                                                            </button>
                                                         </td>
                                                     </ng-container>
-                                                    <ng-container matColumnDef="refPaiment">
+                                                    <ng-container matColumnDef="qualifierSwp">
                                                         <th
                                                             mat-header-cell
                                                             mat-sort-header
                                                             *matHeaderCellDef>
-                                                            Ref Paiment
+                                                            Qualifier SWP
                                                         </th>
                                                         <td
                                                             mat-cell
                                                             *matCellDef="let ligneReleve">
-                                <span class="pr-6 font-medium whitespace-nowrap">
-                                    {{ligneReleve.refPaiment}}
-                                </span>
-                                                        </td>
-                                                    </ng-container>
-                                                    <ng-container matColumnDef="rib">
-                                                        <th
-                                                            mat-header-cell
-                                                            mat-sort-header
-                                                            *matHeaderCellDef>
-                                                            Rib
-                                                        </th>
-                                                        <td
-                                                            mat-cell
-                                                            *matCellDef="let ligneReleve">
-                                <span class="pr-6 font-medium whitespace-nowrap">
-                                    {{ligneReleve.rib}}
-                                </span>
+                                                            <button
+                                                                class="min-w-10 min-h-7 h-7 px-2 leading-6"
+                                                                mat-stroked-button>
+                                                                <mat-icon
+                                                                    class="icon-size-5"
+                                                                    [svgIcon]="'heroicons_solid:tag'"></mat-icon>
+                                                            </button>
                                                         </td>
                                                     </ng-container>
                                                     <ng-container matColumnDef="details">
@@ -336,12 +282,13 @@
                                                     </ng-container>
                                                     <tr
                                                         mat-header-row
-                                                        *matHeaderRowDef="displayedColumns"></tr>
+                                                        *matHeaderRowDef="displayedColumns">
+                                                    </tr>
                                                     <tr
                                                         class="order-row h-16"
                                                         mat-row
-                                                        *matRowDef="let row; columns: displayedColumns;"></tr>
-
+                                                        *matRowDef="let row; columns: displayedColumns;">
+                                                    </tr>
 
                                                 </table>
                                                 <div class="grid" *ngFor="let ligneReleve of ligneReleves">
@@ -422,33 +369,33 @@
 
                                     <!-- Name -->
                                     <mat-form-field class="w-full">
-                                        <mat-label>Ligne Releve Id</mat-label>
-                                        <input
+                                        <mat-label>Reference Paiment</mat-label>
+                                        <input readonly style="width: 0"
                                             matInput
-                                            [formControlName]="'ligneReleveId'">
-                                        {{ligneReleve.ligneReleveId}}
+                                            [formControlName]="'refPaiment'">
+                                        {{ligneReleve.refPaiment}}
                                     </mat-form-field>
 
                                     <!-- SKU and Barcode -->
                                     <div class="flex">
                                         <mat-form-field class="w-1/3 pr-2">
-                                            <mat-label>RIB</mat-label>
-                                            <input
-                                                matInput
-                                                [formControlName]="'rib'">
-                                            {{ligneReleve.rib}}
-                                        </mat-form-field>
-                                        <mat-form-field class="w-2/3 pl-2">
                                             <mat-label>Numero Cheque</mat-label>
-                                            <input
+                                            <input readonly style="width: 0"
                                                 matInput
                                                 [formControlName]="'numCheck'">
                                             {{ligneReleve.numCheck}}
                                         </mat-form-field>
+                                        <mat-form-field class="w-2/3 pl-2">
+                                            <mat-label>RIB</mat-label>
+                                            <input readonly style="width: 0"
+                                                matInput
+                                                [formControlName]="'rib'">
+                                            {{ligneReleve.rib}}
+                                        </mat-form-field>
 
                                         <mat-form-field class="w-2/3 pl-2">
                                             <mat-label>Operation Nature</mat-label>
-                                            <input
+                                            <input readonly style="width: 0"
                                                 matInput
                                                 [formControlName]="'operationNature'">
                                             {{ligneReleve.operationNature}}
@@ -463,14 +410,14 @@
                                 <div class="flex flex-col w-full lg:w-1/4 sm:pl-8">
                                     <mat-form-field class="w-full">
                                         <mat-label>Credit Debit</mat-label>
-                                        <input
+                                        <input readonly style="width: 0"
                                             matInput
                                             [formControlName]="'creditDebit'">
                                         {{ligneReleve.creditDebit}}
                                     </mat-form-field>
                                     <mat-form-field class="w-full">
                                         <mat-label>Reference CDG</mat-label>
-                                        <input
+                                        <input readonly style="width: 0"
                                             matInput
                                             [formControlName]="'refCdg'">
                                         {{ligneReleve.refCdg}}
@@ -481,11 +428,11 @@
                                 <!-- Weight & Tags -->
                                 <div class="flex flex-col w-full lg:w-1/4 sm:pl-8">
                                     <mat-form-field class="w-full">
-                                        <mat-label>Reference Paiment</mat-label>
-                                        <input
+                                        <mat-label>Ligne Releve Id</mat-label>
+                                        <input readonly style="width: 0"
                                             matInput
-                                            [formControlName]="'refPaiment'">
-                                        {{ligneReleve.refPaiment}}
+                                            [formControlName]="'ligneReleveId'">
+                                        {{ligneReleve.ligneReleveId}}
                                     </mat-form-field>
 
 

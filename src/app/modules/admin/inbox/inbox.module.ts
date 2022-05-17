@@ -22,6 +22,9 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
+import { QualificationacteurComponent } from './qualificationacteur/qualificationacteur.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import { QualifierswComponent } from './qualifiersw/qualifiersw.component';
 
 const inboxRoutes: Route[] = [
     {
@@ -42,27 +45,30 @@ const inboxRoutes: Route[] = [
   declarations: [
     InboxComponent,
     TaskdetailsComponent,
-    InboxmanagementComponent
+    InboxmanagementComponent,
+    QualificationacteurComponent,
+    QualifierswComponent
   ],
-    imports: [
-        RouterModule.forChild(inboxRoutes),
-        CommonModule,
-        MatTableModule,
-        MatPaginatorModule,
-        MatProgressBarModule,
-        MatIconModule,
-        MatMenuModule,
-        MatDividerModule,
-        NgApexchartsModule,
-        MatButtonModule,
-        MatSortModule,
-        MatTabsModule,
-        MatRippleModule,
-        ReactiveFormsModule,
-        MatSlideToggleModule,
-        MatFormFieldModule,
-        MatInputModule
-    ],
+  imports: [
+    RouterModule.forChild(inboxRoutes),
+    CommonModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatProgressBarModule,
+    MatIconModule,
+    MatMenuModule,
+    MatDividerModule,
+    NgApexchartsModule,
+    MatButtonModule,
+    MatSortModule,
+    MatTabsModule,
+    MatRippleModule,
+    ReactiveFormsModule,
+    MatSlideToggleModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDialogModule
+  ],
     providers: [
         ActivitiworkflowService
     ]

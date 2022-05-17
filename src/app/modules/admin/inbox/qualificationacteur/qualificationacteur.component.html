@@ -1,0 +1,156 @@
+<!--
+  This example requires Tailwind CSS v2.0+
+
+  This example requires some changes to your config:
+
+  ```
+  // tailwind.config.js
+  module.exports = {
+    // ...
+    plugins: [
+      // ...
+      require('@tailwindcss/forms'),
+    ],
+  }
+  ```
+-->
+<div class="max-w-lg mx-auto">
+    <div>
+        <div class="text-center">
+            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 48 48" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M34 40h10v-4a6 6 0 00-10.712-3.714M34 40H14m20 0v-4a9.971 9.971 0 00-.712-3.714M14 40H4v-4a6 6 0 0110.713-3.714M14 40v-4c0-1.313.253-2.566.713-3.714m0 0A10.003 10.003 0 0124 26c4.21 0 7.813 2.602 9.288 6.286M30 14a6 6 0 11-12 0 6 6 0 0112 0zm12 6a4 4 0 11-8 0 4 4 0 018 0zm-28 0a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+            <h2 class="mt-2 text-lg font-medium text-gray-900">Ajouter acteur</h2>
+            <p class="mt-1 text-sm text-gray-500">Vous n'avez pas encore ajouté d'acteurs à vos linge de releve. En tant qu'administration, vous pouvez ajouter un acteur à cette ligne si il n'y a personne.</p>
+        </div>
+        <form onsubmit="return false;" method="GET" class="mt-6 flex">
+            <label for="text" class="sr-only">Nom ou prenom</label>
+            <input #myInput (keyup.enter)="searchedActeur(myInput.value)" type="text" name="text" id="text" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" placeholder="Chercher un acteur">
+            <button (click)="searchedActeur(myInput.value)"  class="ml-4 flex-shrink-0 px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Chercher</button>
+        </form>
+    </div>
+    <div class="mt-10">
+        <h3 class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Acteurs précédemment ajoutés au ligne de releve</h3>
+        <ul *ngIf="peopleLoaded" role="list" class="mt-4 border-t border-b border-gray-200 divide-y divide-gray-200">
+            <li *ngFor="let acteur of _shownActeurs" class="py-4 flex items-center justify-between space-x-3">
+                <div class="min-w-0 flex-1 flex items-center space-x-3">
+                    <div class="flex-shrink-0">
+                        <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <p class="text-sm font-medium text-gray-900 truncate" >{{acteur.nomActeur}} {{acteur.prenomActeur}}</p>
+                        <p class="text-sm font-medium text-gray-500 truncate">Front-end Developer</p>
+                    </div>
+                </div>
+                <div class="flex-shrink-0">
+                    <button matDialogClose (click)="onCLick(acteur.acteurId)" type="button" class="inline-flex items-center py-2 px-3 border border-transparent rounded-full bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <!-- Heroicon name: solid/plus-sm -->
+                        <svg class="-ml-1 mr-0.5 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+                        </svg>
+                        <span class="text-sm font-medium text-gray-900"> Ajouter <span class="sr-only"></span> </span>
+                    </button>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--&lt;!&ndash; This example requires Tailwind CSS v2.0+ &ndash;&gt;-->
+<!--&lt;!&ndash;<div class="bg-white shadow overflow-hidden sm:rounded-lg">&ndash;&gt;-->
+<!--    <div class="px-4 py-5 sm:px-6">-->
+<!--        <h3 class="text-lg leading-6 font-medium text-gray-900">Acteur Informations</h3>-->
+<!--        <p class="mt-1 max-w-2xl text-sm text-gray-500">Cette section est pour l'affectation d'acteur </p>-->
+<!--    </div>-->
+<!--&lt;!&ndash;    <div class="border-t border-gray-200 px-4 py-5 sm:p-0">&ndash;&gt;-->
+<!--&lt;!&ndash;&ndash;&gt;-->
+<!--        <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-64">-->
+<!--&lt;!&ndash;            <mat-icon&ndash;&gt;-->
+<!--&lt;!&ndash;                class="icon-size-5"&ndash;&gt;-->
+<!--&lt;!&ndash;                matPrefix&ndash;&gt;-->
+<!--&lt;!&ndash;                [svgIcon]="'heroicons_solid:search'"></mat-icon>&ndash;&gt;-->
+<!--&lt;!&ndash;            <input&ndash;&gt;-->
+<!--&lt;!&ndash;                matInput&ndash;&gt;-->
+<!--&lt;!&ndash;                [formControl]="searchInputControl"&ndash;&gt;-->
+<!--&lt;!&ndash;                [autocomplete]="'off'"&ndash;&gt;-->
+<!--&lt;!&ndash;                [placeholder]="'Chercher acteur'">&ndash;&gt;-->
+<!--&lt;!&ndash;        </mat-form-field>&ndash;&gt;-->
+
+<!--        <input class="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"-->
+<!--               type="search" name="search" placeholder="Search">-->
+<!--        <button type="submit" class="absolute right-0 top-0 mt-5 mr-4">-->
+<!--            <svg class="text-gray-600 h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg"-->
+<!--                 xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"-->
+<!--                 viewBox="0 0 56.966 56.966" style="enable-background:new 0 0 56.966 56.966;" xml:space="preserve"-->
+<!--                 width="512px" height="512px">-->
+<!--            <path-->
+<!--                d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />-->
+<!--          </svg>-->
+<!--        </button>-->
+
+<!--        <div class="pt-5">-->
+<!--            <div class="flex mt-4 justify-end p-1.5">-->
+<!--                <button class="py-2 px-4"-->
+<!--                    mat-flat-button-->
+<!--                    matDialogClose>-->
+<!--                    Close-->
+<!--                </button>-->
+<!--&lt;!&ndash;                <button type="button" class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Cancel</button>&ndash;&gt;-->
+
+<!--                    <button-->
+<!--                        mat-flat-button-->
+<!--                        [color]="'primary'">-->
+<!--                        Save-->
+<!--                    </button>-->
+
+<!--            </div>-->
+<!--        </div>-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;</div>&ndash;&gt;-->
