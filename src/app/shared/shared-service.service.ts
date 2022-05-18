@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject} from 'rxjs';
 import {Acteur} from '../mock-api/common/relevebancaire/acteur';
 
 @Injectable({

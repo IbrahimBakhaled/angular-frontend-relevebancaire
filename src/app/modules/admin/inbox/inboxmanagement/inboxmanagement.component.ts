@@ -36,7 +36,7 @@ export class InboxmanagementComponent implements OnInit, OnDestroy {
     @ViewChild(MatSort) sort: MatSort;
 
     task: Task;
-    releveBancaire: ReleveBancaire;
+    releveBancaire: ReleveBancaire = new ReleveBancaire();
     ligneReleves: LigneReleve[]= [];
     dataSource= new MatTableDataSource<LigneReleve>(this.ligneReleves);
     // dataSource = new MatTableDataSource(this.ligneReleves);

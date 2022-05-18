@@ -11,7 +11,7 @@ export class RelevebancaireService {
 
     private baseUrl = 'http://localhost:8081/api/v1/relevebancaire';
     private acteurUrl ='http://localhost:8081/api/v1/acteurs';
-    private baseUrlSearchActeur = 'http://localhost:8081/api/v1/search/acteurs?query=';
+    private baseUrlSearchActeur = 'http://localhost:8081/api/v1/search/mockacteurs?query=';
 
     constructor(private httpClient: HttpClient) { }
 
