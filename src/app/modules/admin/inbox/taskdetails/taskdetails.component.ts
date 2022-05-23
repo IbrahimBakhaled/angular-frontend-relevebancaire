@@ -57,7 +57,8 @@ export class TaskdetailsComponent implements OnInit, OnDestroy {
         this.activitiWorkflowService.getTasks().subscribe(
             (data) => {
                 this.tasks = data;
-                console.log('showing tasks coming from mysql', data);
+                // console.log('showing tasks coming from mysql', data);
+        this._changeDetectorRef.markForCheck();
             }
         );
 

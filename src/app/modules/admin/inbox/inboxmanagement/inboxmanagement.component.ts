@@ -7,9 +7,8 @@ import {
     ViewEncapsulation, Input
 } from '@angular/core';
 import {Task} from '../../../../mock-api/common/activiti-workflow/task';
-import {ActivitiworkflowService} from '../../../services/activitiworkflow.service';
 import {InboxServiceService} from '../inbox-service.service';
-import {debounceTime, mergeMap, pipe, Subject, takeUntil, tap} from 'rxjs';
+import {debounceTime, mergeMap, pipe, Subject, switchMap, takeUntil, tap} from 'rxjs';
 import {MatTableDataSource} from '@angular/material/table';
 import {RelevebancaireService} from '../../../services/relevebancaire.service';
 import {ReleveBancaire} from '../../../../mock-api/common/relevebancaire/releve-bancaire';
@@ -17,11 +16,13 @@ import {LigneReleve} from '../../../../mock-api/common/relevebancaire/ligne-rele
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {animate, state, style, transition, trigger} from '@angular/animations';
 import {MatDialog} from '@angular/material/dialog';
 import {QualificationacteurComponent} from '../qualificationacteur/qualificationacteur.component';
 import {Acteur} from '../../../../mock-api/common/relevebancaire/acteur';
 import {SharedServiceService} from '../../../../shared/shared-service.service';
+import {QualifierswComponent} from '../qualifiersw/qualifiersw.component';
+import {Produit} from '../../../../mock-api/common/relevebancaire/produit';
+import {ActivitiworkflowService} from '../../../services/activitiworkflow.service';
 
 @Component({
   selector: 'app-inboxmanagement',
@@ -50,6 +51,8 @@ export class InboxmanagementComponent implements OnInit, OnDestroy {
     releveBancaireId: number;
     _fileReader = new FileReader();
     _acteurs: Acteur[];
+    _produits: Produit[];
+    _shownActeurs: Acteur[];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
 
@@ -59,13 +62,14 @@ export class InboxmanagementComponent implements OnInit, OnDestroy {
 
 
 
-  constructor(private activitiWorkflowService: ActivitiworkflowService,
+  constructor(
               private _inboxServcie: InboxServiceService,
               private _changeDetectorRef: ChangeDetectorRef,
               private _relebeBancaireService: RelevebancaireService,
               private _formBuilder: FormBuilder,
               private _matDialog: MatDialog,
-              private _sharedService: SharedServiceService) { }
+              private _sharedService: SharedServiceService,
+              private _activitiWorkflowService: ActivitiworkflowService) { }
 
 
   ngOnInit(): void {
@@ -87,7 +91,11 @@ export class InboxmanagementComponent implements OnInit, OnDestroy {
           (data) => {
               this._acteurs = data;
               this._sharedService.changeActeurs(this._acteurs);
+              this._changeDetectorRef.markForCheck();
           });
+
+      this._sharedService.changeProduit(this._produits);
+      this._changeDetectorRef.markForCheck();
 
       this.selectedLigneReleveForm = this._formBuilder.group({
           ligneReleveId   : [''],
@@ -100,6 +108,10 @@ export class InboxmanagementComponent implements OnInit, OnDestroy {
       });
 
       this.recieveActeur();
+      this.recieveProduit();
+      this._changeDetectorRef.markForCheck();
+      this._shownActeurs = this._sharedService.getItems();
+      console.log('this._sharedService.getItems() ', this._sharedService.getItems());
 
   }
 
@@ -109,23 +121,48 @@ export class InboxmanagementComponent implements OnInit, OnDestroy {
 
             acteurs => (this._acteurs = acteurs)
         );
+        this._changeDetectorRef.markForCheck();
 
+
+    }
+
+
+    recieveProduit(): void {
+      this._sharedService._produitCurrent.subscribe(
+          produits => (this._produits = produits)
+      );
+      this._changeDetectorRef.markForCheck();
     }
 
     public removeActor(selectedActeurId): void {
         this._acteurs.forEach((acteur) => {
             if (acteur.acteurId === selectedActeurId) {
-                acteur.ligneReleve = null;
+                acteur.ligneReleveId = null;
             }
         });
 
         this._sharedService.changeActeurs(this._acteurs);
+        this._changeDetectorRef.markForCheck();
     }
+
+
+    public removeProduit(selectedProduitId): void {
+        this._produits.forEach((produit) => {
+            if (produit.produitId === selectedProduitId) {
+                produit.ligneReleve = null;
+            }
+        });
+
+        this._sharedService.changeProduit(this._produits);
+        this._changeDetectorRef.markForCheck();
+    }
+
 
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     selectedTabChange(event: any){
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this._changeDetectorRef.markForCheck();
     }
 
 
@@ -135,9 +172,10 @@ export class InboxmanagementComponent implements OnInit, OnDestroy {
             (data) => {
                 this.task = data;
                 this.releveBancaireId = data.releveBancaireId;  // this is the variable I want to access
-                console.log('this.releveBancaireId' ,this.releveBancaireId); // this returs 1 which is right "releveBancaireId" has value 1
+                // console.log('this.releveBancaireId' ,this.releveBancaireId); // this returs 1 which is right "releveBancaireId" has value 1
             }
         );
+        this._changeDetectorRef.markForCheck();
     }
 
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -150,7 +188,8 @@ export class InboxmanagementComponent implements OnInit, OnDestroy {
               this.dataSource= new MatTableDataSource(this.ligneReleves);
               this.dataSource.paginator = this.paginator;
               this.dataSource.sort = this.sort;
-              console.log('logging this.displayReleveBancaireById();' , data);
+              // console.log('logging this.displayReleveBancaireById();' , data);
+        this._changeDetectorRef.markForCheck();
           }
       );
     }
@@ -181,11 +220,13 @@ export class InboxmanagementComponent implements OnInit, OnDestroy {
             // Mark for check
             this._changeDetectorRef.markForCheck();
         });
+        this._changeDetectorRef.markForCheck();
     }
 
     closeDetails(): void
     {
         this.selectedLigneReleve = null;
+        this._changeDetectorRef.markForCheck();
     }
 
 
@@ -217,6 +258,55 @@ export class InboxmanagementComponent implements OnInit, OnDestroy {
                 return;
             }
     });
+            this._changeDetectorRef.markForCheck();
+    }
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+    qualifierSW(ligneReleveId: number): void {
+
+      this._relebeBancaireService.getReleveBancaireById(this.task.releveBancaireId)
+      .subscribe((data) => {
+
+          this.selectedLigneReleve = data.lignereleve.find(i => i.ligneReleveId ===ligneReleveId);
+
+          this._matDialog.open(QualifierswComponent, {
+              autoFocus: false,
+              data: {
+                  selectedLigneReleve: this.selectedLigneReleve
+              }
+
+          });
+        {
+            // Close the details
+            this.closeDetails();
+            return;
+        }
+      });
+        this._changeDetectorRef.markForCheck();
+
+    }
+
+
+
+    changeReleveBancaireStatus(value: any): void {
+      this._relebeBancaireService.changeReleveBancaireStatus(this.releveBancaire.releveBancaireId, value).subscribe(
+          (data) => {
+              this.releveBancaire = data;
+          }
+      );
+    }
+
+
+
+    completeReleveBancaire(releveBancaireId: number): void {
+
+      this._relebeBancaireService.qualificationReleveBancaire(releveBancaireId).subscribe(data => data);
+      this._relebeBancaireService.postActeur(this._shownActeurs).subscribe(data => data);
+      this._relebeBancaireService.postProduit(this._produits).subscribe( data => data);
+        this._changeDetectorRef.markForCheck();
+    }
+    completeTask(): void {
+      this._activitiWorkflowService.completeTask(this.task.taskId).subscribe(data => data);
+      this._changeDetectorRef.markForCheck();
     }
 
     trackByFn(index: number, item: any): any

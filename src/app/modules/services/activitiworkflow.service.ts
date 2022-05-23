@@ -10,16 +10,35 @@ export class ActivitiworkflowService {
     private baseUrl = 'http://localhost:8765/api/v3/tasks?assignee=Gestionnaire-Integration';
     // private baseUrl = 'http://localhost:8083/api/v3/tasks?assignee=Gestionnaire-Integration';
 
-  constructor(private httpClient: HttpClient) { }
+    private processUrl = 'http://localhost:8083/api/v3/process?relevebancaireId=';
+    private taskIdUrl = 'http://localhost:8083/api/v3/completetask?taskId=';
+
+    constructor(private httpClient: HttpClient) {
+    }
 
 
-    getTasks(): Observable<Task[]>{
+    getTasks(): Observable<Task[]> {
         return this.httpClient.get<GetResponse>(this.baseUrl).pipe(
             map((response: any) => response)
         );
     }
 
 
+    createPreccess(releveBancaireId: number): Observable<any> {
+        const localProcessUrl = `${this.processUrl}${releveBancaireId}`;
+
+        return this.httpClient.post<any>(localProcessUrl, releveBancaireId);
+
+    }
+
+    completeTask(taskId: number): Observable<Task> {
+        const currentTaskUrl = `${this.taskIdUrl}${taskId}`;
+        return this.httpClient.get<Task>(currentTaskUrl).pipe(
+            map(response => response)
+        );
+
+
+    }
 }
     interface GetResponse {
         response: {

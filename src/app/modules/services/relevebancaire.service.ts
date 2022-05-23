@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable, map, tap, BehaviorSubject} from 'rxjs';
 import {ReleveBancaire} from '../../mock-api/common/relevebancaire/releve-bancaire';
 import {Acteur} from '../../mock-api/common/relevebancaire/acteur';
+import {Produit} from '../../mock-api/common/relevebancaire/produit';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,10 @@ export class RelevebancaireService {
     private baseUrl = 'http://localhost:8081/api/v1/relevebancaire';
     private acteurUrl ='http://localhost:8081/api/v1/acteurs';
     private baseUrlSearchActeur = 'http://localhost:8081/api/v1/search/mockacteurs?query=';
+    private baseUrlProduit = 'http://localhost:8081/api/v1/mockproduit';
+    private baseUrlQualification = 'http://localhost:8081/api/v1/relevebancaire/qualification';
+    private baseUrlActeurEntity = 'http://localhost:8081/api/v1/createacteur';
+    private baseUrlProduitEntity = 'http://localhost:8081/api/v1/createproduit';
 
     constructor(private httpClient: HttpClient) { }
 
@@ -22,8 +27,10 @@ export class RelevebancaireService {
     }
 
 
-    postReleveBancaire( relevebancaire: ReleveBancaire): Observable<any> {
-        return this.httpClient.post<ReleveBancaire>(this.baseUrl,relevebancaire);
+    postReleveBancaire( relevebancaire: ReleveBancaire): Observable<ReleveBancaire> {
+        return this.httpClient.post<ReleveBancaire>(this.baseUrl,relevebancaire).pipe(
+            map(response => response)
+        );
     }
 
 
@@ -47,11 +54,41 @@ export class RelevebancaireService {
         );
     }
 
+    getProduits(): Observable<Produit[]>{
+        return this.httpClient.get<GetResponse>(this.baseUrlProduit).pipe(
+            map((response: any) => response)
+        );
+    }
+
+    changeReleveBancaireStatus(releveBancaireId: number, value: any): Observable<ReleveBancaire>{
+        const releveBancaireUrl = `${this.baseUrl}/${releveBancaireId}`;
+        return this.httpClient.put<GetResponse>(releveBancaireUrl, value).pipe(
+            map((res: any)=> res)
+        );
+    }
+
+    qualificationReleveBancaire(releveBancaireId: number): Observable<ReleveBancaire>{
+        const releveBancaireIdUrl = `${this.baseUrlQualification}/${releveBancaireId}`;
+        return this.httpClient.post<ReleveBancaire>(releveBancaireIdUrl, releveBancaireId).pipe(
+            (data: any ) => data
+        );
+    }
+
+
+    postActeur(acteur: Acteur[]): Observable<Acteur[]>{
+        return this.httpClient.post<Acteur> (this.baseUrlActeurEntity, acteur).pipe(
+            map ((data: any) => data)
+        );
+    }
+
+    postProduit(produit: Produit[]): Observable<Produit[]> {
+        return this.httpClient.post<Produit>(this.baseUrlProduitEntity, produit).pipe(
+            map ((data: any) => data)
+        );
+    }
 
 }
-
-
-interface GetResponse{
+interface GetResponse {
     response: {
         relevebancaire: ReleveBancaire[];
     };

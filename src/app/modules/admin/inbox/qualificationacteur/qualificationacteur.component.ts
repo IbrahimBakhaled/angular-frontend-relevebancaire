@@ -25,6 +25,7 @@ export class QualificationacteurComponent implements OnInit, OnDestroy {
     peopleLoaded = false;
     _acteurs: Acteur[];
     _shownActeurs: Acteur[];
+    completedActeurList: Acteur[]= [];
     acteur$: Observable<Acteur>;
     isEditing: boolean = false;
     enableEditIndex = null;
@@ -53,13 +54,13 @@ export class QualificationacteurComponent implements OnInit, OnDestroy {
   public onCLick(selectedActeurId): void {
       this._acteurs.forEach((acteur) => {
           if (acteur.acteurId === selectedActeurId) {
-              acteur.ligneReleve = this.data.selectedLigneReleve;
+              acteur.ligneReleveId = this.data.selectedLigneReleve.ligneReleveId;
           }
       });
 
+
       this._sharedService.changeActeurs(this._acteurs);
   }
-
 
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     switchEditMode(i) {
@@ -68,17 +69,24 @@ export class QualificationacteurComponent implements OnInit, OnDestroy {
     }
 
 
+
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-    async searchedActeur(value: string){
+     searchedActeur(value: string){
       this._releveBancaireService.searchedActeur(value).pipe(takeUntil(this._unsubscribeAll), debounceTime(300)).subscribe(
           (data) => {
               this._shownActeurs = this._acteurs.filter(acteur => acteur.nomActeur.toLowerCase() === value || acteur.prenomActeur.toLowerCase() === value);
+              this._shownActeurs.forEach((a) => {
+                  this._sharedService.addItem(a);
+                  this.completedActeurList.push(a);
+              });
+              console.log('consoling this._shownActeurs ', this._shownActeurs);
               this._changeDetectorRef.markForCheck();
               this.peopleLoaded = true;
 
-              console.log('consoling this._shownActeurs ', this._shownActeurs);
           }
       );
+
+
     }
 
     ngOnDestroy(): void {

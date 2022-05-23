@@ -1,1 +1,92 @@
-<p>qualifiersw works!</p>
+<div id="main" class="flex justify-evenly space-x-2 ml-12 mr-12">
+
+    <div class="rounded flex-grow h-50">
+
+                <form [formGroup]="swForm">
+        <div class="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <div>
+                <mat-form-field class="fuse-mat-no-subscript w-full">
+                    <mat-label>Produits</mat-label>
+                    <mat-select formControlName="produit">
+                        <mat-option [value]="produit.produitLabel" *ngFor="let produit of _produits">{{produit.produitLabel}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+
+            </div>
+            <div>
+                <label for="account-number" class="block text-sm font-medium text-gray-700">Montant</label>
+                <div class="mt-1 relative rounded-md shadow-sm">
+                    <input formControlName="montant" style="height: 51px" type="text" name="account-number" id="account-number" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 border-gray-300 rounded-md" placeholder="000-00-0000">
+                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                        <!-- Heroicon name: solid/question-mark-circle -->
+                        <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 flex justify-end px-4 sm:px-6 lg:px-8">
+            <button (click)="addProduit()" type="button" class="inline-flex items-center p-1 border border-transparent rounded-lg shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <!-- Heroicon name: solid/plus-sm -->
+                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+                </svg>
+            </button>
+            </div>
+
+
+        </div>
+                </form>
+
+
+
+        <br/>
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <table *ngIf="swTableLoaded" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th scope="col" class="px-6 py-3">
+                        SWP
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Montant
+                    </th>
+                    <th scope="col" class="px-6 py-3" style="text-align: center">
+                        Action
+                    </th>
+
+                </tr>
+                </thead>
+                <tbody>
+<!--                <tr *ngFor="let item of listData" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">-->
+                <tr *ngIf="listData" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+<!--                        {{item.produit}}-->
+                        {{this.listData.produit}}
+                    </th>
+                    <td class="px-6 py-4">
+<!--                        {{item.montant}}-->
+                        {{this.listData.montant}}
+                    </td>
+
+                    <td class="px-6 py-4 text-center">
+<!--                        <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline">remove</a>-->
+                        <button (click)="removeProduit(this.listData.produit)" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">remove</button>
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mt-8 flex justify-end px-4 sm:px-6 lg:px-8">
+            <button matDialogClose (click)="onClick(this.listData.produit)" type="submit" class="bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">Sauvegarder</button>
+            <!--    <button type="button" class="w-full bg-indigo-600 border border-transparent rounded-md py-22 px-4 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">Pay $220</button>-->
+            <!--    <button type="button" class="w-full bg-indigo-50 border border-transparent rounded-md py- px-4 flex items-center justify-center text-base font-medium text-indigo-700 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">Preview</button>-->
+        </div>
+
+    </div>
+</div>
+
+

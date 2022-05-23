@@ -196,7 +196,7 @@
 <!--&lt;!&ndash;                                       <button (click)="removeActor(acteur.acteurId)">Remove</button>&ndash;&gt;-->
 <!--                                   </ng-container>-->
 
-                                    <div class="mt-6 flex items-center" *ngIf="acteur.ligneReleve && acteur.ligneReleve.ligneReleveId === ligneReleve.ligneReleveId">
+                                    <div class="mt-6 flex items-center" *ngIf="acteur.ligneReleveId === ligneReleve.ligneReleveId">
                 <p class="ml-2 font-medium text-gray-500">{{acteur.nomActeur}} {{acteur.prenomActeur}}</p>
 
                                         <button style="margin-left: 14px"
@@ -221,8 +221,19 @@
                                                         <td
                                                             mat-cell
                                                             *matCellDef="let ligneReleve">
-                                <span class="pr-6 font-medium whitespace-nowrap">
+                                <span class="pr-6 font-medium whitespace-nowrap" *ngFor="let produit of _produits">
+                                    <div class="mt-6 flex items-center" *ngIf="produit.ligneReleve && produit.ligneReleve.ligneReleveId === ligneReleve.ligneReleveId">
+                <p class="ml-2 font-medium text-gray-500">{{produit.produitLabel}}</p>
 
+                                        <button style="margin-left: 14px"
+                                                class="min-w-10 min-h-7 h-7 px-2 leading-6"
+                                                mat-stroked-button
+                                                (click)="removeProduit(produit.produitId)">
+                                                                <mat-icon
+                                                                    class="icon-size-5"
+                                                                    [svgIcon]="'heroicons_solid:trash'"></mat-icon>
+                                                            </button>
+              </div>
                                 </span>
                                                         </td>
                                                     </ng-container>
@@ -258,7 +269,8 @@
                                                             *matCellDef="let ligneReleve">
                                                             <button
                                                                 class="min-w-10 min-h-7 h-7 px-2 leading-6"
-                                                                mat-stroked-button>
+                                                                mat-stroked-button
+                                                                (click)="qualifierSW(ligneReleve.ligneReleveId)">
                                                                 <mat-icon
                                                                     class="icon-size-5"
                                                                     [svgIcon]="'heroicons_solid:tag'"></mat-icon>
@@ -314,6 +326,7 @@
                                             class="ml-4"
                                             mat-flat-button
                                             [color]="'warn'"
+                                            (click)="changeReleveBancaireStatus(releveBancaire.releveBancaireId)"
                                         >
                                             <mat-icon [svgIcon]="'heroicons_outline:x'"></mat-icon>
                                             <span class="ml-2 mr-1">Rejeter</span>
@@ -322,6 +335,8 @@
                                                     class="ml-4"
                                                     mat-flat-button
                                                     [color]="'primary'"
+                                                    (click)="[completeReleveBancaire(releveBancaire.releveBancaireId), completeTask()]"
+                                                    [routerLink]="['/api/inbox']"
                                                 >
                                                     <mat-icon [svgIcon]="'heroicons_outline:plus'"></mat-icon>
                                                     <span class="ml-2 mr-1">Valider</span>

@@ -5,5 +5,6 @@ export class Acteur {
     acteurId: number;
     nomActeur: string;
     prenomActeur: string;
-    ligneReleve: LigneReleve;
+    ligneReleveId: number;
+    // ligneReleve: LigneReleve;
 }

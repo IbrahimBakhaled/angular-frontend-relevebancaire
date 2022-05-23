@@ -1,4 +1,9 @@
-import {Component, ViewEncapsulation, ChangeDetectionStrategy} from '@angular/core';
+import {
+    Component,
+    ViewEncapsulation,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef, OnInit
+} from '@angular/core';
 
 @Component({
     selector     : 'inbox',
@@ -6,9 +11,13 @@ import {Component, ViewEncapsulation, ChangeDetectionStrategy} from '@angular/co
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class InboxComponent
+export class InboxComponent implements OnInit
 {
-   constructor() {
+   constructor(private _changeDetectorRef: ChangeDetectorRef) {
    }
+
+    ngOnInit(): void {
+       this._changeDetectorRef.detectChanges();
+    }
 
 }

@@ -18,13 +18,14 @@ import {InboxesResolvers} from './inbox.resolvers';
 import {ActivitiworkflowService} from '../../services/activitiworkflow.service';
 import {MatRippleModule} from '@angular/material/core';
 import {RelevebancaireService} from '../../services/relevebancaire.service';
-import {ReactiveFormsModule} from "@angular/forms";
-import {MatSlideToggleModule} from "@angular/material/slide-toggle";
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatInputModule} from "@angular/material/input";
+import {ReactiveFormsModule} from '@angular/forms';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 import { QualificationacteurComponent } from './qualificationacteur/qualificationacteur.component';
-import {MatDialogModule} from "@angular/material/dialog";
+import {MatDialogModule} from '@angular/material/dialog';
 import { QualifierswComponent } from './qualifiersw/qualifiersw.component';
+import {MatSelectModule} from '@angular/material/select';
 
 const inboxRoutes: Route[] = [
     {
@@ -67,7 +68,8 @@ const inboxRoutes: Route[] = [
     MatSlideToggleModule,
     MatFormFieldModule,
     MatInputModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSelectModule
   ],
     providers: [
         ActivitiworkflowService

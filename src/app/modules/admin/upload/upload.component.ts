@@ -1,4 +1,11 @@
-import {Component, ElementRef, QueryList, ViewChildren, ViewEncapsulation} from '@angular/core';
+import {
+    Component,
+    ElementRef,
+    OnDestroy,
+    QueryList,
+    ViewChildren,
+    ViewEncapsulation
+} from '@angular/core';
 import {ReleveBancaire} from '../../../mock-api/common/relevebancaire/releve-bancaire';
 import {LigneReleve} from '../../../mock-api/common/relevebancaire/ligne-releve';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
@@ -6,6 +13,8 @@ import {RelevebancaireService} from '../../services/relevebancaire.service';
 import { FuseCardComponent } from '@fuse/components/card';
 import {MatTableDataSource} from '@angular/material/table';
 import {FileData} from '../../../mock-api/common/filedata/file-data';
+import {debounceTime, Subject, switchMap, takeUntil, timer} from 'rxjs';
+import {ActivitiworkflowService} from '../../services/activitiworkflow.service';
 
 
 @Component({
@@ -13,7 +22,7 @@ import {FileData} from '../../../mock-api/common/filedata/file-data';
     templateUrl  : './upload.component.html',
     encapsulation: ViewEncapsulation.None
 })
-export class UploadComponent
+export class UploadComponent implements OnDestroy
 {
     @ViewChildren(FuseCardComponent, {read: ElementRef}) private _fuseCards: QueryList<ElementRef>;
     relevebancaire!: ReleveBancaire[];
@@ -33,10 +42,11 @@ export class UploadComponent
     csvRecords: any;
     recentTransactionsTableColumns: string[] = ['fileSize', 'fileName', 'filelastModifiedDate', 'fileType'];
 
+    private _unsubscribeAll: Subject<any> = new Subject<any>();
     /**
      * Constructor
      */
-    constructor(public formBuilder: FormBuilder, private relevebancaireService: RelevebancaireService)
+    constructor(public formBuilder: FormBuilder, private relevebancaireService: RelevebancaireService, private activitiWorkflowService: ActivitiworkflowService)
     {
     }
 
@@ -45,14 +55,9 @@ export class UploadComponent
 
         this.releveBancaires();
 
-        this.checkoutFormGroup = this.formBuilder.group({
-            relevebancaire : this.formBuilder.group({
-                nbrLignes : new FormControl(''),
-                nbrOperationCredit : new FormControl(''),
-                nbrOperationDebit: new FormControl('')
-            })
+        this.checkoutFormGroup = this.formBuilder.group( {
+            relevebancaire: new FormControl('')
         });
-        console.log('this.cat ', this.cat);
     }
     trackByFn(index: number, item: any): any
     {
@@ -69,11 +74,11 @@ export class UploadComponent
         this.fileType = $event.target.files[0].type;
         this.filelastModifiedDate = new Date($event.target.files[0].lastModified).toLocaleDateString();
         this.fileUrl =  $event.target.files[0].url;
-        console.log('this.fileUrl ', this.fileUrl)
+        // console.log('this.fileUrl ', this.fileUrl);
 
-        console.log(this.fileName, this.fileType);
+        // console.log(this.fileName, this.fileType);
 
-        console.log('submitted here');
+        // console.log('submitted here');
         const file = $event.target.files[0];
         const fileReader = new FileReader();
         fileReader.onload = (e) => {
@@ -81,7 +86,7 @@ export class UploadComponent
             this.storeResults(data);
             this._fileReader = data;
             // console.log('FileREAAAAAAAAAAADER \n', data);
-            console.log(this._fileReader);
+            // console.log(this._fileReader);
             this.parseData(data);
         };
         fileReader.readAsText(file);
@@ -164,19 +169,21 @@ export class UploadComponent
         }
 
         releveBancaire.lignereleve = this.lignereleve;
-        console.log(releveBancaire.lignereleve);
-        this.relevebancaireService.postReleveBancaire(releveBancaire).subscribe(
-            {
-                next : (response) => {
-                    alert('You have been submitted your releve bancaire, check MySQL');
-                },
-                error: (err) => {
-                    alert(`there was a problem: ${err.message}` );
-                }
+        // console.log(releveBancaire.lignereleve);
+        this.relevebancaireService.postReleveBancaire(releveBancaire)
+        .pipe(
+            switchMap(response => this.activitiWorkflowService.createPreccess(response.releveBancaireId).pipe(takeUntil(this._unsubscribeAll), debounceTime(3000)))
+        )
+        .subscribe({
+            next : (data: any) => data,
+            error: (err) => {
+                alert(`there was a problem: ${err.message}` );
             }
-        );
+        });
 
     }
+
+
 
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     releveBancaires()
@@ -189,4 +196,9 @@ export class UploadComponent
         );
     }
 
+    ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next(null);
+        this._unsubscribeAll.complete();
+    }
 }
