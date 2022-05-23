@@ -76,7 +76,7 @@ export class QualificationacteurComponent implements OnInit, OnDestroy {
           (data) => {
               this._shownActeurs = this._acteurs.filter(acteur => acteur.nomActeur.toLowerCase() === value || acteur.prenomActeur.toLowerCase() === value);
               this._shownActeurs.forEach((a) => {
-                  this._sharedService.addItem(a);
+                  this._sharedService.addActeur(a);
                   this.completedActeurList.push(a);
               });
               console.log('consoling this._shownActeurs ', this._shownActeurs);

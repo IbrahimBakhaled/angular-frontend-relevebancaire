@@ -10,8 +10,8 @@ export class ActivitiworkflowService {
     private baseUrl = 'http://localhost:8765/api/v3/tasks?assignee=Gestionnaire-Integration';
     // private baseUrl = 'http://localhost:8083/api/v3/tasks?assignee=Gestionnaire-Integration';
 
-    private processUrl = 'http://localhost:8083/api/v3/process?relevebancaireId=';
-    private taskIdUrl = 'http://localhost:8083/api/v3/completetask?taskId=';
+    private processUrl = 'http://localhost:8765/api/v3/process?relevebancaireId=';
+    private taskIdUrl = 'http://localhost:8765/api/v3/completetask?taskId=';
 
     constructor(private httpClient: HttpClient) {
     }

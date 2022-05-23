@@ -17,7 +17,8 @@ export class SharedServiceService {
     public _produitCurrent= this._produitSource.asObservable();
 
 
-    private _items: Acteur[] = [];
+    private acteurs: Acteur[] = [];
+    private produits: Produit[] = [];
 
     constructor() { }
 
@@ -32,12 +33,21 @@ export class SharedServiceService {
     }
 
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-    addItem(item: Acteur) {
-        this._items.push(item);
+    addActeur(item: Acteur) {
+        this.acteurs.push(item);
     }
 
-    getItems(): Acteur[] {
-        return this._items;
+    getActeurs(): Acteur[] {
+        return this.acteurs;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+    addProduit(item: Produit){
+        this.produits.push(item);
+    }
+
+    getProduits(): Produit[]{
+        return this.produits;
     }
 
 

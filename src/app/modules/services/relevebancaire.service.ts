@@ -10,13 +10,13 @@ import {Produit} from '../../mock-api/common/relevebancaire/produit';
 })
 export class RelevebancaireService {
 
-    private baseUrl = 'http://localhost:8081/api/v1/relevebancaire';
-    private acteurUrl ='http://localhost:8081/api/v1/acteurs';
-    private baseUrlSearchActeur = 'http://localhost:8081/api/v1/search/mockacteurs?query=';
-    private baseUrlProduit = 'http://localhost:8081/api/v1/mockproduit';
-    private baseUrlQualification = 'http://localhost:8081/api/v1/relevebancaire/qualification';
-    private baseUrlActeurEntity = 'http://localhost:8081/api/v1/createacteur';
-    private baseUrlProduitEntity = 'http://localhost:8081/api/v1/createproduit';
+    private baseUrl = 'http://localhost:8765/api/v1/relevebancaire';
+    private acteurUrl ='http://localhost:8765/api/v1/acteurs';
+    private baseUrlSearchActeur = 'http://localhost:8765/api/v1/search/mockacteurs?query=';
+    private baseUrlProduit = 'http://localhost:8765/api/v1/mockproduit';
+    private baseUrlQualification = 'http://localhost:8765/api/v1/relevebancaire/qualification';
+    private baseUrlActeurEntity = 'http://localhost:8765/api/v1/createacteur';
+    private baseUrlProduitEntity = 'http://localhost:8765/api/v1/createproduit';
 
     constructor(private httpClient: HttpClient) { }
 

@@ -25,31 +25,31 @@ export class QualifierswComponent implements OnInit,OnDestroy,AfterViewInit {
     swTableLoaded = false;
     swForm: FormGroup;
     listData: any;
+    _shownProduits: Produit[];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(private _releveBancaireService: RelevebancaireService,
               private formBuilder: FormBuilder,
               private _sharedService: SharedServiceService,
               private _changeDetectorRef: ChangeDetectorRef,
-              @Inject(MAT_DIALOG_DATA) public data: any) { }
-
-    ngAfterViewInit(): void {
-        this._changeDetectorRef.markForCheck();
-    }
-
-  ngOnInit(): void {
-      this.getProduits();
+              @Inject(MAT_DIALOG_DATA) public data: any) {
 
       this.swForm = this.formBuilder.group({
           produit:[''],
           montant: ['']
 
       });
-      this._changeDetectorRef.markForCheck();
+  }
 
+    ngAfterViewInit(): void {
+        this._changeDetectorRef.markForCheck();
+    }
 
+  ngOnInit(): void {
 
-      this._sharedService._produitSource.subscribe(
+      this.addProduit();
+
+      this._sharedService._produitCurrent.subscribe(
           (produits) => {
               this._produits = produits;
           }
@@ -60,45 +60,29 @@ export class QualifierswComponent implements OnInit,OnDestroy,AfterViewInit {
   }
 
 
-
-
-    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-    getProduits(){
-      this._releveBancaireService.getProduits().subscribe(
-          (data) => {
-              this._produits = data;
-              this._sharedService.changeProduit(this._produits);
-          }
-      );
-        this._changeDetectorRef.markForCheck();
-  }
-
-
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     addProduit(){
-        this.listData = this.swForm.value;
-        this.swTableLoaded = true;
-    }
+        this._releveBancaireService.getProduits().subscribe(
+            (data) => {
+                this._produits = data;
+                this._shownProduits = this._produits;
+                console.log('DATA ', data);
+            }
+        );
 
-    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-    removeProduit(element){
-        if(element === this.listData){
-        delete this.listData;
-        }
-        this._changeDetectorRef.markForCheck();
+        this.listData = this.swForm.value;
+        this._sharedService.addProduit(this.listData);
+        this.swTableLoaded = true;
     }
 
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     onClick(element){
       this._produits.forEach((produit) => {
           if (produit.produitLabel === element){
-              produit.ligneReleve = this.data.selectedLigneReleve;
+              produit.ligneReleveId = this.data.selectedLigneReleve.ligneReleveId;
           }
       });
       this._sharedService.changeProduit(this._produits);
-
-        console.log()
-        this._changeDetectorRef.markForCheck();
     }
 
 

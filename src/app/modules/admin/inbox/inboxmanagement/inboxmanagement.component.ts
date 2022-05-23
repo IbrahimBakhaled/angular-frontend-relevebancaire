@@ -53,6 +53,7 @@ export class InboxmanagementComponent implements OnInit, OnDestroy {
     _acteurs: Acteur[];
     _produits: Produit[];
     _shownActeurs: Acteur[];
+    _shownProduits: Produit[];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
 
@@ -110,8 +111,9 @@ export class InboxmanagementComponent implements OnInit, OnDestroy {
       this.recieveActeur();
       this.recieveProduit();
       this._changeDetectorRef.markForCheck();
-      this._shownActeurs = this._sharedService.getItems();
-      console.log('this._sharedService.getItems() ', this._sharedService.getItems());
+      this._shownActeurs = this._sharedService.getActeurs();
+      this._shownProduits = this._sharedService.getProduits();
+      console.log('this._sharedService.getItems() ', this._sharedService.getActeurs());
 
   }
 
@@ -149,7 +151,7 @@ export class InboxmanagementComponent implements OnInit, OnDestroy {
     public removeProduit(selectedProduitId): void {
         this._produits.forEach((produit) => {
             if (produit.produitId === selectedProduitId) {
-                produit.ligneReleve = null;
+                produit.ligneReleveId = null;
             }
         });
 
@@ -301,11 +303,11 @@ export class InboxmanagementComponent implements OnInit, OnDestroy {
 
       this._relebeBancaireService.qualificationReleveBancaire(releveBancaireId).subscribe(data => data);
       this._relebeBancaireService.postActeur(this._shownActeurs).subscribe(data => data);
-      this._relebeBancaireService.postProduit(this._produits).subscribe( data => data);
+      this._relebeBancaireService.postProduit(this._shownProduits).subscribe( data => data);
         this._changeDetectorRef.markForCheck();
     }
     completeTask(): void {
-      this._activitiWorkflowService.completeTask(this.task.taskId).subscribe(data => data);
+      // this._activitiWorkflowService.completeTask(this.task.taskId).subscribe(data => data);
       this._changeDetectorRef.markForCheck();
     }
 

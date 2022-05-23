@@ -6,5 +6,5 @@ export class Produit {
     produitId: number;
     produitCode: string;
     produitLabel: string;
-    ligneReleve: LigneReleve;
+    ligneReleveId: LigneReleve;
 }
