@@ -26,6 +26,7 @@ import { QualificationacteurComponent } from './qualificationacteur/qualificatio
 import {MatDialogModule} from '@angular/material/dialog';
 import { QualifierswComponent } from './qualifiersw/qualifiersw.component';
 import {MatSelectModule} from '@angular/material/select';
+import {FuseAlertModule} from '../../../../@fuse/components/alert';
 
 const inboxRoutes: Route[] = [
     {
@@ -50,27 +51,28 @@ const inboxRoutes: Route[] = [
     QualificationacteurComponent,
     QualifierswComponent
   ],
-  imports: [
-    RouterModule.forChild(inboxRoutes),
-    CommonModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatProgressBarModule,
-    MatIconModule,
-    MatMenuModule,
-    MatDividerModule,
-    NgApexchartsModule,
-    MatButtonModule,
-    MatSortModule,
-    MatTabsModule,
-    MatRippleModule,
-    ReactiveFormsModule,
-    MatSlideToggleModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatDialogModule,
-    MatSelectModule
-  ],
+    imports: [
+        RouterModule.forChild(inboxRoutes),
+        CommonModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatProgressBarModule,
+        MatIconModule,
+        MatMenuModule,
+        MatDividerModule,
+        NgApexchartsModule,
+        MatButtonModule,
+        MatSortModule,
+        MatTabsModule,
+        MatRippleModule,
+        ReactiveFormsModule,
+        MatSlideToggleModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatDialogModule,
+        MatSelectModule,
+        FuseAlertModule
+    ],
     providers: [
         ActivitiworkflowService
     ]

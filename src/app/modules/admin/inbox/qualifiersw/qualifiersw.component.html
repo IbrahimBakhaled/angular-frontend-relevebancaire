@@ -43,48 +43,80 @@
 
         <br/>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table *ngIf="swTableLoaded" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                    <th scope="col" class="px-6 py-3">
-                        SWP
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Montant
-                    </th>
-                    <th scope="col" class="px-6 py-3" style="text-align: center">
-                        Action
-                    </th>
+            <ul *ngIf="swTableLoaded" role="list" class="mt-4 border-t border-b border-gray-200 divide-y divide-gray-200">
+                <li *ngFor="let produit of _shownProduits" class="py-4 flex items-center justify-between space-x-3">
+                    <div class="min-w-0 flex-1 flex items-center space-x-3">
+                        <div class="flex-shrink-0">
+                            <img class="h-10 w-10 rounded-full" src="assets/icons/628284_avatar_male_man_mature_old_icon%20(3).png" alt="">
+                        </div>
+                        <div class="min-w-0 flex-1">
+                            <p class="text-sm font-medium text-gray-900 truncate" >{{produit.produitLabel}}</p>
+                            <p class="text-sm font-medium text-gray-500 truncate">CDG Prevoyance client</p>
+                        </div>
+                    </div>
+                    <div class="flex-shrink-0">
+                        <button matDialogClose (click)="onClick(produit.produitId)" type="button" class="inline-flex items-center py-2 px-3 border border-transparent rounded-full bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            <!-- Heroicon name: solid/plus-sm -->
+                            <svg class="-ml-1 mr-0.5 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+                            </svg>
+                            <span class="text-sm font-medium text-gray-900"> Ajouter <span class="sr-only"></span> </span>
+                        </button>
+                    </div>
+                </li>
+            </ul>
 
-                </tr>
-                </thead>
-                <tbody>
-<!--                <tr *ngFor="let item of listData" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">-->
-                <tr *ngIf="listData" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-<!--                        {{item.produit}}-->
-                        {{this.listData.produit}}
-                    </th>
-                    <td class="px-6 py-4">
-<!--                        {{item.montant}}-->
-                        {{this.listData.montant}}
-                    </td>
+<!--            <table *ngIf="swTableLoaded" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">-->
+<!--                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">-->
+<!--                <tr>-->
+<!--                    <th scope="col" class="px-6 py-3">-->
+<!--                        SWP-->
+<!--                    </th>-->
+<!--                    <th scope="col" class="px-6 py-3">-->
+<!--                        Montant-->
+<!--                    </th>-->
+<!--                    <th scope="col" class="px-6 py-3" style="text-align: center">-->
+<!--                        Action-->
+<!--                    </th>-->
 
-                    <td class="px-6 py-4 text-center">
-<!--                        <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline">remove</a>-->
-                        <button (click)="removeProduit(this.listData.produit)" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">remove</button>
+<!--                </tr>-->
+<!--                </thead>-->
+<!--                <tbody>-->
+<!--&lt;!&ndash;                <tr *ngFor="let item of listData" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">&ndash;&gt;-->
+<!--                <tr *ngIf="listData" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">-->
+<!--                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">-->
+<!--&lt;!&ndash;                        {{item.produit}}&ndash;&gt;-->
+<!--                        {{this.listData.produit}}-->
+<!--                    </th>-->
+<!--                    <td class="px-6 py-4">-->
+<!--&lt;!&ndash;                        {{item.montant}}&ndash;&gt;-->
+<!--                        {{this.listData.montant}}-->
+<!--                    </td>-->
 
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+<!--                    <td class="px-6 py-4 text-center">-->
+<!--&lt;!&ndash;                        <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline">remove</a>&ndash;&gt;-->
+<!--                        <button (click)="removeProduit(this.listData.produit)" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">remove</button>-->
+
+<!--                    </td>-->
+<!--                </tr>-->
+<!--                </tbody>-->
+<!--            </table>-->
         </div>
+
+
+
+
+
+
+
+
+
 
         <div class="mt-8 flex justify-end px-4 sm:px-6 lg:px-8">
-            <button matDialogClose (click)="onClick(this.listData.produit)" type="submit" class="bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">Sauvegarder</button>
-            <!--    <button type="button" class="w-full bg-indigo-600 border border-transparent rounded-md py-22 px-4 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">Pay $220</button>-->
-            <!--    <button type="button" class="w-full bg-indigo-50 border border-transparent rounded-md py- px-4 flex items-center justify-center text-base font-medium text-indigo-700 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">Preview</button>-->
-        </div>
+            <!--            <button matDialogClose (click)="onClick(this.listData.produit)" type="submit" class="bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">Sauvegarder</button>-->
+<!--            &lt;!&ndash;    <button type="button" class="w-full bg-indigo-600 border border-transparent rounded-md py-22 px-4 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">Pay $220</button>&ndash;&gt;-->
+<!--            &lt;!&ndash;    <button type="button" class="w-full bg-indigo-50 border border-transparent rounded-md py- px-4 flex items-center justify-center text-base font-medium text-indigo-700 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">Preview</button>&ndash;&gt;-->
+<!--        </div>-->
 
     </div>
 </div>

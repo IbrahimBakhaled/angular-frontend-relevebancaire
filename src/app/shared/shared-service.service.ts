@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import {Acteur} from '../mock-api/common/relevebancaire/acteur';
 import {Produit} from '../mock-api/common/relevebancaire/produit';
@@ -6,7 +6,7 @@ import {Produit} from '../mock-api/common/relevebancaire/produit';
 @Injectable({
   providedIn: 'root'
 })
-export class SharedServiceService {
+export class SharedServiceService implements OnDestroy{
 
     public _acteursSource: BehaviorSubject<Acteur[] | null> = new BehaviorSubject(null);
     public _acteursCurrent= this._acteursSource.asObservable();
@@ -20,7 +20,8 @@ export class SharedServiceService {
     private acteurs: Acteur[] = [];
     private produits: Produit[] = [];
 
-    constructor() { }
+
+    constructor() {}
 
 
     public changeActeurs(acteurs: Acteur[]): void {
@@ -48,6 +49,11 @@ export class SharedServiceService {
 
     getProduits(): Produit[]{
         return this.produits;
+    }
+
+    ngOnDestroy(): void {
+
+
     }
 
 

@@ -1,4 +1,5 @@
 import {
+    AfterViewInit,
     ChangeDetectorRef,
     Component,
     EventEmitter,
@@ -20,12 +21,11 @@ import {MAT_DIALOG_DATA} from '@angular/material/dialog';
   templateUrl: './qualificationacteur.component.html',
   styleUrls: ['./qualificationacteur.component.scss']
 })
-export class QualificationacteurComponent implements OnInit, OnDestroy {
+export class QualificationacteurComponent implements OnInit, OnDestroy, AfterViewInit {
 
     peopleLoaded = false;
     _acteurs: Acteur[];
-    _shownActeurs: Acteur[];
-    completedActeurList: Acteur[]= [];
+    _shownActeurs: Acteur[]= [];
     acteur$: Observable<Acteur>;
     isEditing: boolean = false;
     enableEditIndex = null;
@@ -42,12 +42,22 @@ export class QualificationacteurComponent implements OnInit, OnDestroy {
               private _sharedService: SharedServiceService,
               @Inject(MAT_DIALOG_DATA) public data: any) { }
 
+    ngAfterViewInit(): void {
+        this._shownActeurs = [];
+    }
+
   ngOnInit(): void {
       this._sharedService._acteursCurrent.subscribe(
           (acteurs) => {
               this._acteurs = acteurs;
           }
       );
+
+      this._shownActeurs = [];
+
+
+
+      console.log('consoling this._acteurs ', this._acteurs);
   }
 
 
@@ -56,8 +66,15 @@ export class QualificationacteurComponent implements OnInit, OnDestroy {
           if (acteur.acteurId === selectedActeurId) {
               acteur.ligneReleveId = this.data.selectedLigneReleve.ligneReleveId;
           }
+          this._changeDetectorRef.markForCheck();
       });
 
+      this._shownActeurs.forEach((a) => {
+          this._sharedService.addActeur(a);
+          console.log('_shownActeurs [INSIDE]', this._shownActeurs);
+      });
+      this._shownActeurs = [];
+      console.log('_shownActeurs [OUTSIDE]', this._shownActeurs);
 
       this._sharedService.changeActeurs(this._acteurs);
   }
@@ -75,24 +92,22 @@ export class QualificationacteurComponent implements OnInit, OnDestroy {
       this._releveBancaireService.searchedActeur(value).pipe(takeUntil(this._unsubscribeAll), debounceTime(300)).subscribe(
           (data) => {
               this._shownActeurs = this._acteurs.filter(acteur => acteur.nomActeur.toLowerCase() === value || acteur.prenomActeur.toLowerCase() === value);
-              this._shownActeurs.forEach((a) => {
-                  this._sharedService.addActeur(a);
-                  this.completedActeurList.push(a);
-              });
-              console.log('consoling this._shownActeurs ', this._shownActeurs);
               this._changeDetectorRef.markForCheck();
               this.peopleLoaded = true;
 
           }
       );
 
-
     }
+
 
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
+        this._shownActeurs = [];
+        this._acteurs = [];
         this._unsubscribeAll.next(null);
         this._unsubscribeAll.complete();
+
     }
 
 }

@@ -10,5 +10,6 @@ export class ReleveBancaire{
     nbrOperationDebit: number;
     soldeInitial: number;
     soleFinal: number;
+    status: string;
     lignereleve: LigneReleve [];
 }

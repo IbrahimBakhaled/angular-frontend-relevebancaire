@@ -17,6 +17,7 @@ export class RelevebancaireService {
     private baseUrlQualification = 'http://localhost:8765/api/v1/relevebancaire/qualification';
     private baseUrlActeurEntity = 'http://localhost:8765/api/v1/createacteur';
     private baseUrlProduitEntity = 'http://localhost:8765/api/v1/createproduit';
+    private baseUrlProduits = 'http://localhost:8765/api/v1/produits';
 
     constructor(private httpClient: HttpClient) { }
 
@@ -42,7 +43,13 @@ export class RelevebancaireService {
     }
 
     getActeurs(): Observable<Acteur[]>{
-        return this.httpClient.get<GetResponse>(this.baseUrl).pipe(
+        return this.httpClient.get(this.acteurUrl).pipe(
+            map((response: any) => response)
+        );
+    }
+
+    getProduitsfromDB(): Observable<Produit[]>{
+        return this.httpClient.get(this.baseUrlProduits).pipe(
             map((response: any) => response)
         );
     }
@@ -54,14 +61,21 @@ export class RelevebancaireService {
         );
     }
 
-    getProduits(): Observable<Produit[]>{
-        return this.httpClient.get<GetResponse>(this.baseUrlProduit).pipe(
+    getProduits(): Observable<any>{
+        return this.httpClient.get(this.baseUrlProduit).pipe(
             map((response: any) => response)
         );
     }
 
     changeReleveBancaireStatus(releveBancaireId: number, value: any): Observable<ReleveBancaire>{
-        const releveBancaireUrl = `${this.baseUrl}/${releveBancaireId}`;
+        const releveBancaireUrl = `${this.baseUrl}/statusrejeter/${releveBancaireId}`;
+        return this.httpClient.put<GetResponse>(releveBancaireUrl, value).pipe(
+            map((res: any)=> res)
+        );
+    }
+
+    changeReleveBancaireStatusQualifier(releveBancaireId: number, value: any): Observable<ReleveBancaire>{
+        const releveBancaireUrl = `${this.baseUrl}/statusqualifier/${releveBancaireId}`;
         return this.httpClient.put<GetResponse>(releveBancaireUrl, value).pipe(
             map((res: any)=> res)
         );

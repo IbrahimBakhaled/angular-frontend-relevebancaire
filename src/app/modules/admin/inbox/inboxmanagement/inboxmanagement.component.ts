@@ -42,7 +42,7 @@ export class InboxmanagementComponent implements OnInit, OnDestroy {
     dataSource= new MatTableDataSource<LigneReleve>(this.ligneReleves);
     // dataSource = new MatTableDataSource(this.ligneReleves);
     displayedColumns: string[] = ['dateOperation', 'dateValue', 'modePaiment',
-        'montant','acteur', 'swp', 'qualifierActeur', 'qualifierSwp', 'details'];
+        'montant','acteur', 'dejaqualifieracteur', 'dejaqualifiersw', 'swp', 'qualifierActeur', 'qualifierSwp', 'details'];
     selectedObject: string = 'Releve Bancaire';
     selectedLigneReleve: LigneReleve | null = null;
     selectedLigneReleveForm: FormGroup;
@@ -50,9 +50,11 @@ export class InboxmanagementComponent implements OnInit, OnDestroy {
     data: any;
     releveBancaireId: number;
     _fileReader = new FileReader();
-    _acteurs: Acteur[];
+    _acteurs: Acteur[]= [];
+    _savedActeurs: Acteur[]= [];
+    _savedProduits: Produit[]= [];
     _produits: Produit[];
-    _shownActeurs: Acteur[];
+    _shownActeurs: Acteur[]= [];
     _shownProduits: Produit[];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -95,6 +97,15 @@ export class InboxmanagementComponent implements OnInit, OnDestroy {
               this._changeDetectorRef.markForCheck();
           });
 
+
+      this._relebeBancaireService.getProduits().pipe(takeUntil(this._unsubscribeAll), debounceTime(300)).subscribe(
+          (data) => {
+              this._produits = data;
+              this._sharedService.changeProduit(this._produits);
+              this._changeDetectorRef.markForCheck();
+          }
+      );
+
       this._sharedService.changeProduit(this._produits);
       this._changeDetectorRef.markForCheck();
 
@@ -111,10 +122,27 @@ export class InboxmanagementComponent implements OnInit, OnDestroy {
       this.recieveActeur();
       this.recieveProduit();
       this._changeDetectorRef.markForCheck();
+      this._shownActeurs = [];
+
+      console.log('showing acteurs goes to DB >>>> ', this._shownActeurs);
       this._shownActeurs = this._sharedService.getActeurs();
       this._shownProduits = this._sharedService.getProduits();
-      console.log('this._sharedService.getItems() ', this._sharedService.getActeurs());
+      this._relebeBancaireService.getActeurs().pipe(takeUntil(this._unsubscribeAll), debounceTime(300)).subscribe(
+          (acteurs) => {
+              this._savedActeurs = acteurs;
+              // console.log(this._savedActeurs);
+          }
+      );
 
+
+      this._relebeBancaireService.getProduitsfromDB().pipe(takeUntil(this._unsubscribeAll), debounceTime(300)).subscribe(
+          (produits) => {
+              this._savedProduits = produits;
+              // console.log(this._savedProduits);
+          }
+      );
+
+      this._changeDetectorRef.markForCheck();
   }
 
 
@@ -297,13 +325,23 @@ export class InboxmanagementComponent implements OnInit, OnDestroy {
       );
     }
 
+    changeReleveBancaireStatusQualifier(value: any): void {
+      this._relebeBancaireService.changeReleveBancaireStatusQualifier(this.releveBancaire.releveBancaireId, value).subscribe(
+          (data) => {
+              this.releveBancaire = data;
+          }
+      );
+    }
+
 
 
     completeReleveBancaire(releveBancaireId: number): void {
 
       this._relebeBancaireService.qualificationReleveBancaire(releveBancaireId).subscribe(data => data);
       this._relebeBancaireService.postActeur(this._shownActeurs).subscribe(data => data);
+      this._shownActeurs.length = 0;
       this._relebeBancaireService.postProduit(this._shownProduits).subscribe( data => data);
+
         this._changeDetectorRef.markForCheck();
     }
     completeTask(): void {
@@ -317,6 +355,7 @@ export class InboxmanagementComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+      this._shownActeurs = [];
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next(null);
         this._unsubscribeAll.complete();

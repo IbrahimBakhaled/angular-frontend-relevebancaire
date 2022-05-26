@@ -11,21 +11,21 @@ import {Produit} from '../../../../mock-api/common/relevebancaire/produit';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {SharedServiceService} from '../../../../shared/shared-service.service';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {Subject} from 'rxjs';
+import {debounceTime, Subject, takeUntil} from 'rxjs';
 
 @Component({
   selector: 'app-qualifiersw',
   templateUrl: './qualifiersw.component.html',
   styleUrls: ['./qualifiersw.component.scss']
 })
-export class QualifierswComponent implements OnInit,OnDestroy,AfterViewInit {
+export class QualifierswComponent implements OnInit,OnDestroy {
 
 
     _produits: Produit[];
     swTableLoaded = false;
     swForm: FormGroup;
     listData: any;
-    _shownProduits: Produit[];
+    _shownProduits: Produit[]= [];
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
   constructor(private _releveBancaireService: RelevebancaireService,
@@ -41,13 +41,8 @@ export class QualifierswComponent implements OnInit,OnDestroy,AfterViewInit {
       });
   }
 
-    ngAfterViewInit(): void {
-        this._changeDetectorRef.markForCheck();
-    }
 
   ngOnInit(): void {
-
-      this.addProduit();
 
       this._sharedService._produitCurrent.subscribe(
           (produits) => {
@@ -62,23 +57,25 @@ export class QualifierswComponent implements OnInit,OnDestroy,AfterViewInit {
 
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     addProduit(){
-        this._releveBancaireService.getProduits().subscribe(
+        this._releveBancaireService.getProduits().pipe(takeUntil(this._unsubscribeAll), debounceTime(300)).subscribe(
             (data) => {
-                this._produits = data;
-                this._shownProduits = this._produits;
-                console.log('DATA ', data);
+                data.forEach((p) => {
+                    // console.log('Logging P ', p);
+                    this.listData = p.produitLabel;
+                    this._shownProduits.push(p);
+                });
+                // console.log('this._shownProduits ', this._shownProduits);
+                this._changeDetectorRef.markForCheck();
+                this.swTableLoaded = true;
             }
         );
-
-        this.listData = this.swForm.value;
-        this._sharedService.addProduit(this.listData);
-        this.swTableLoaded = true;
     }
 
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     onClick(element){
       this._produits.forEach((produit) => {
-          if (produit.produitLabel === element){
+          if (produit.produitId === element){
+              this._sharedService.addProduit(produit);
               produit.ligneReleveId = this.data.selectedLigneReleve.ligneReleveId;
           }
       });
