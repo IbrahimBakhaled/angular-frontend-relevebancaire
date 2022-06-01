@@ -1,124 +1,52 @@
-<div id="main" class="flex justify-evenly space-x-2 ml-12 mr-12">
+<!--
+  This example requires Tailwind CSS v2.0+
 
-    <div class="rounded flex-grow h-50">
+  This example requires some changes to your config:
 
-                <form [formGroup]="swForm">
-        <div class="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            <div>
-                <mat-form-field class="fuse-mat-no-subscript w-full">
-                    <mat-label>Produits</mat-label>
-                    <mat-select formControlName="produit">
-                        <mat-option [value]="produit.produitLabel" *ngFor="let produit of _produits">{{produit.produitLabel}}</mat-option>
-                    </mat-select>
-                </mat-form-field>
+  ```
+  // tailwind.config.js
+  const colors = require('tailwindcss/colors')
 
-
-            </div>
-            <div>
-                <label for="account-number" class="block text-sm font-medium text-gray-700">Montant</label>
-                <div class="mt-1 relative rounded-md shadow-sm">
-                    <input formControlName="montant" style="height: 51px" type="text" name="account-number" id="account-number" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pr-10 border-gray-300 rounded-md" placeholder="000-00-0000">
-                    <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                        <!-- Heroicon name: solid/question-mark-circle -->
-                        <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                </div>
-            </div>
-            <div class="mt-8 flex justify-end px-4 sm:px-6 lg:px-8">
-            <button (click)="addProduit()" type="button" class="inline-flex items-center p-1 border border-transparent rounded-lg shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                <!-- Heroicon name: solid/plus-sm -->
-                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
-                </svg>
-            </button>
-            </div>
-
-
+  module.exports = {
+    // ...
+    theme: {
+      extend: {
+        colors: {
+          sky: colors.sky,
+          teal: colors.teal,
+          rose: colors.rose,
+        },
+      },
+    },
+  }
+  ```
+-->
+<div class="rounded-lg bg-gray-200 overflow-hidden shadow divide-y divide-gray-200 sm:divide-y-0 sm:grid sm:grid-cols-2 sm:gap-px">
+    <div class="rounded-tl-lg rounded-tr-lg sm:rounded-tr-none relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500" *ngFor="let produit of _shownProduits">
+        <div>
+      <span class="rounded-lg inline-flex p-3 bg-teal-50 text-teal-700 ring-4 ring-white">
+        <!-- Heroicon name: outline/clock -->
+<!--        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">-->
+<!--          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />-->
+<!--        </svg>-->
+          <mat-icon svgIcon="heroicons_outline:clipboard-check"></mat-icon>
+      </span>
         </div>
-                </form>
-
-
-
-        <br/>
-        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <ul *ngIf="swTableLoaded" role="list" class="mt-4 border-t border-b border-gray-200 divide-y divide-gray-200">
-                <li *ngFor="let produit of _shownProduits" class="py-4 flex items-center justify-between space-x-3">
-                    <div class="min-w-0 flex-1 flex items-center space-x-3">
-                        <div class="flex-shrink-0">
-                            <img class="h-10 w-10 rounded-full" src="assets/icons/628284_avatar_male_man_mature_old_icon%20(3).png" alt="">
-                        </div>
-                        <div class="min-w-0 flex-1">
-                            <p class="text-sm font-medium text-gray-900 truncate" >{{produit.produitLabel}}</p>
-                            <p class="text-sm font-medium text-gray-500 truncate">CDG Prevoyance client</p>
-                        </div>
-                    </div>
-                    <div class="flex-shrink-0">
-                        <button matDialogClose (click)="onClick(produit.produitId)" type="button" class="inline-flex items-center py-2 px-3 border border-transparent rounded-full bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            <!-- Heroicon name: solid/plus-sm -->
-                            <svg class="-ml-1 mr-0.5 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
-                            </svg>
-                            <span class="text-sm font-medium text-gray-900"> Ajouter <span class="sr-only"></span> </span>
-                        </button>
-                    </div>
-                </li>
-            </ul>
-
-<!--            <table *ngIf="swTableLoaded" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">-->
-<!--                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">-->
-<!--                <tr>-->
-<!--                    <th scope="col" class="px-6 py-3">-->
-<!--                        SWP-->
-<!--                    </th>-->
-<!--                    <th scope="col" class="px-6 py-3">-->
-<!--                        Montant-->
-<!--                    </th>-->
-<!--                    <th scope="col" class="px-6 py-3" style="text-align: center">-->
-<!--                        Action-->
-<!--                    </th>-->
-
-<!--                </tr>-->
-<!--                </thead>-->
-<!--                <tbody>-->
-<!--&lt;!&ndash;                <tr *ngFor="let item of listData" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">&ndash;&gt;-->
-<!--                <tr *ngIf="listData" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">-->
-<!--                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">-->
-<!--&lt;!&ndash;                        {{item.produit}}&ndash;&gt;-->
-<!--                        {{this.listData.produit}}-->
-<!--                    </th>-->
-<!--                    <td class="px-6 py-4">-->
-<!--&lt;!&ndash;                        {{item.montant}}&ndash;&gt;-->
-<!--                        {{this.listData.montant}}-->
-<!--                    </td>-->
-
-<!--                    <td class="px-6 py-4 text-center">-->
-<!--&lt;!&ndash;                        <a class="font-medium text-blue-600 dark:text-blue-500 hover:underline">remove</a>&ndash;&gt;-->
-<!--                        <button (click)="removeProduit(this.listData.produit)" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">remove</button>-->
-
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                </tbody>-->
-<!--            </table>-->
+        <div class="mt-8">
+            <h3 class="text-lg font-medium">
+                <button matDialogClose type="button" (click)="onClick(produit.produitId)" class="focus:outline-none">
+                    <!-- Extend touch target to entire panel -->
+                    <span class="absolute inset-0" aria-hidden="true"></span>
+                   {{produit.produitLabel}}
+                </button>
+            </h3>
+            <p class="mt-2 text-sm text-gray-500">Doloribus dolores nostrum quia qui natus officia quod et dolorem. Sit repellendus qui ut at blanditiis et quo et molestiae.</p>
         </div>
-
-
-
-
-
-
-
-
-
-
-        <div class="mt-8 flex justify-end px-4 sm:px-6 lg:px-8">
-            <!--            <button matDialogClose (click)="onClick(this.listData.produit)" type="submit" class="bg-indigo-600 border border-transparent rounded-md shadow-sm py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">Sauvegarder</button>-->
-<!--            &lt;!&ndash;    <button type="button" class="w-full bg-indigo-600 border border-transparent rounded-md py-22 px-4 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">Pay $220</button>&ndash;&gt;-->
-<!--            &lt;!&ndash;    <button type="button" class="w-full bg-indigo-50 border border-transparent rounded-md py- px-4 flex items-center justify-center text-base font-medium text-indigo-700 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-indigo-500">Preview</button>&ndash;&gt;-->
-<!--        </div>-->
-
+        <span class="pointer-events-none absolute top-6 right-6 text-gray-300 group-hover:text-gray-400" aria-hidden="true">
+      <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M20 4h1a1 1 0 00-1-1v1zm-1 12a1 1 0 102 0h-2zM8 3a1 1 0 000 2V3zM3.293 19.293a1 1 0 101.414 1.414l-1.414-1.414zM19 4v12h2V4h-2zm1-1H8v2h12V3zm-.707.293l-16 16 1.414 1.414 16-16-1.414-1.414z" />
+      </svg>
+    </span>
     </div>
+
 </div>
-
-

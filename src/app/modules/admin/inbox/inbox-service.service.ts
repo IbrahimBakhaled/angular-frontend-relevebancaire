@@ -9,7 +9,7 @@ import {HttpClient} from '@angular/common/http';
 })
 export class InboxServiceService {
     private _task: BehaviorSubject<Task | null>;
-    private baseUrl = 'http://localhost:8765/api/v3/task';
+    private baseUrl = 'https://localhost:8765/api/v3/task';
 
 
 

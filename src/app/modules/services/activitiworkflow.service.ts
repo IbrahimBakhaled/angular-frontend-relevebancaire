@@ -7,11 +7,11 @@ import {Task} from '../../mock-api/common/activiti-workflow/task';
   providedIn: 'root'
 })
 export class ActivitiworkflowService {
-    private baseUrl = 'http://localhost:8765/api/v3/tasks?assignee=Gestionnaire-Integration';
-    // private baseUrl = 'http://localhost:8083/api/v3/tasks?assignee=Gestionnaire-Integration';
+    private baseUrl = 'https://localhost:8765/api/v3/tasks?assignee=Gestionnaire-Integration';
+    // private baseUrl = 'http://localhost:8765/api/v3/tasks?assignee=Gestionnaire-Integration';
 
-    private processUrl = 'http://localhost:8765/api/v3/process?relevebancaireId=';
-    private taskIdUrl = 'http://localhost:8765/api/v3/completetask?taskId=';
+    private processUrl = 'https://localhost:8765/api/v3/process?relevebancaireId=';
+    private taskIdUrl = 'https://localhost:8765/api/v3/completetask?taskId=';
 
     constructor(private httpClient: HttpClient) {
     }

@@ -16,6 +16,30 @@
                 </a>
             </div>
 
+                <ng-container *ngIf="(isAuthenticated$ | async) === false; else signout">
+                    <button
+                        class="mt-8"
+                        mat-flat-button
+                        [color]="'primary'"
+                        (click)="signIn()" >
+                        <span>Sign-in</span>
+                        <mat-icon
+                            [svgIcon]="'heroicons_outline:logout'"></mat-icon>
+                    </button>
+                </ng-container>
+                <ng-template #signout>
+                    <button
+                        class="mt-8"
+                        mat-flat-button
+                        [color]="'primary'"
+                        (click)="signOut()" >
+                        <span>Sign-out</span>
+                        <mat-icon
+                            [svgIcon]="'heroicons_outline:logout'"></mat-icon>
+                    </button>
+                </ng-template>
+
+
             <!-- Alert -->
             <fuse-alert
                 class="mt-8 -mb-4"
@@ -27,119 +51,119 @@
                 {{alert.message}}
             </fuse-alert>
 
-            <!-- Sign in form -->
-            <form
-                class="mt-8"
-                [formGroup]="signInForm"
-                #signInNgForm="ngForm">
+<!--             Sign in form-->
+<!--            <form-->
+<!--                class="mt-8"-->
+<!--                [formGroup]="signInForm"-->
+<!--                #signInNgForm="ngForm">-->
 
-                <!-- Email field -->
-                <mat-form-field class="w-full">
-                    <mat-label>Email address</mat-label>
-                    <input
-                        id="email"
-                        matInput
-                        [formControlName]="'email'">
-                    <mat-error *ngIf="signInForm.get('email').hasError('required')">
-                        Email address is required
-                    </mat-error>
-                    <mat-error *ngIf="signInForm.get('email').hasError('email')">
-                        Please enter a valid email address
-                    </mat-error>
-                </mat-form-field>
+<!--                &lt;!&ndash; Email field &ndash;&gt;-->
+<!--                <mat-form-field class="w-full">-->
+<!--                    <mat-label>Email address</mat-label>-->
+<!--                    <input-->
+<!--                        id="email"-->
+<!--                        matInput-->
+<!--                        [formControlName]="'email'">-->
+<!--                    <mat-error *ngIf="signInForm.get('email').hasError('required')">-->
+<!--                        Email address is required-->
+<!--                    </mat-error>-->
+<!--                    <mat-error *ngIf="signInForm.get('email').hasError('email')">-->
+<!--                        Please enter a valid email address-->
+<!--                    </mat-error>-->
+<!--                </mat-form-field>-->
 
-                <!-- Password field -->
-                <mat-form-field class="w-full">
-                    <mat-label>Password</mat-label>
-                    <input
-                        id="password"
-                        matInput
-                        type="password"
-                        [formControlName]="'password'"
-                        #passwordField>
-                    <button
-                        mat-icon-button
-                        type="button"
-                        (click)="passwordField.type === 'password' ? passwordField.type = 'text' : passwordField.type = 'password'"
-                        matSuffix>
-                        <mat-icon
-                            class="icon-size-5"
-                            *ngIf="passwordField.type === 'password'"
-                            [svgIcon]="'heroicons_solid:eye'"></mat-icon>
-                        <mat-icon
-                            class="icon-size-5"
-                            *ngIf="passwordField.type === 'text'"
-                            [svgIcon]="'heroicons_solid:eye-off'"></mat-icon>
-                    </button>
-                    <mat-error>
-                        Password is required
-                    </mat-error>
-                </mat-form-field>
+<!--                &lt;!&ndash; Password field &ndash;&gt;-->
+<!--                <mat-form-field class="w-full">-->
+<!--                    <mat-label>Password</mat-label>-->
+<!--                    <input-->
+<!--                        id="password"-->
+<!--                        matInput-->
+<!--                        type="password"-->
+<!--                        [formControlName]="'password'"-->
+<!--                        #passwordField>-->
+<!--                    <button-->
+<!--                        mat-icon-button-->
+<!--                        type="button"-->
+<!--                        (click)="passwordField.type === 'password' ? passwordField.type = 'text' : passwordField.type = 'password'"-->
+<!--                        matSuffix>-->
+<!--                        <mat-icon-->
+<!--                            class="icon-size-5"-->
+<!--                            *ngIf="passwordField.type === 'password'"-->
+<!--                            [svgIcon]="'heroicons_solid:eye'"></mat-icon>-->
+<!--                        <mat-icon-->
+<!--                            class="icon-size-5"-->
+<!--                            *ngIf="passwordField.type === 'text'"-->
+<!--                            [svgIcon]="'heroicons_solid:eye-off'"></mat-icon>-->
+<!--                    </button>-->
+<!--                    <mat-error>-->
+<!--                        Password is required-->
+<!--                    </mat-error>-->
+<!--                </mat-form-field>-->
 
-                <!-- Actions -->
-                <div class="inline-flex items-end justify-between w-full mt-1.5">
-                    <mat-checkbox
-                        [color]="'primary'"
-                        [formControlName]="'rememberMe'">
-                        Remember me
-                    </mat-checkbox>
-                    <a
-                        class="text-md font-medium text-primary-500 hover:underline"
-                        [routerLink]="['/forgot-password']">Forgot password?
-                    </a>
-                </div>
+<!--                &lt;!&ndash; Actions &ndash;&gt;-->
+<!--                <div class="inline-flex items-end justify-between w-full mt-1.5">-->
+<!--                    <mat-checkbox-->
+<!--                        [color]="'primary'"-->
+<!--                        [formControlName]="'rememberMe'">-->
+<!--                        Remember me-->
+<!--                    </mat-checkbox>-->
+<!--                    <a-->
+<!--                        class="text-md font-medium text-primary-500 hover:underline"-->
+<!--                        [routerLink]="['/forgot-password']">Forgot password?-->
+<!--                    </a>-->
+<!--                </div>-->
 
-                <!-- Submit button -->
-                <button
-                    class="fuse-mat-button-large w-full mt-6"
-                    mat-flat-button
-                    [color]="'primary'"
-                    [disabled]="signInForm.disabled"
-                    (click)="signIn()">
-                    <span *ngIf="!signInForm.disabled">
-                        Sign in
-                    </span>
-                    <mat-progress-spinner
-                        *ngIf="signInForm.disabled"
-                        [diameter]="24"
-                        [mode]="'indeterminate'"></mat-progress-spinner>
-                </button>
+<!--                &lt;!&ndash; Submit button &ndash;&gt;-->
+<!--                <button-->
+<!--                    class="fuse-mat-button-large w-full mt-6"-->
+<!--                    mat-flat-button-->
+<!--                    [color]="'primary'"-->
+<!--                    [disabled]="signInForm.disabled"-->
+<!--                    (click)="signIn()">-->
+<!--                    <span *ngIf="!signInForm.disabled">-->
+<!--                        Sign in-->
+<!--                    </span>-->
+<!--                    <mat-progress-spinner-->
+<!--                        *ngIf="signInForm.disabled"-->
+<!--                        [diameter]="24"-->
+<!--                        [mode]="'indeterminate'"></mat-progress-spinner>-->
+<!--                </button>-->
 
-                <!-- Separator -->
-                <div class="flex items-center mt-8">
-                    <div class="flex-auto mt-px border-t"></div>
-                    <div class="mx-2 text-secondary">Or continue with</div>
-                    <div class="flex-auto mt-px border-t"></div>
-                </div>
+<!--                &lt;!&ndash; Separator &ndash;&gt;-->
+<!--                <div class="flex items-center mt-8">-->
+<!--                    <div class="flex-auto mt-px border-t"></div>-->
+<!--                    <div class="mx-2 text-secondary">Or continue with</div>-->
+<!--                    <div class="flex-auto mt-px border-t"></div>-->
+<!--                </div>-->
 
-                <!-- Single sign-on buttons -->
-                <div class="flex items-center mt-8 space-x-4">
-                    <button
-                        class="flex-auto"
-                        type="button"
-                        mat-stroked-button>
-                        <mat-icon
-                            class="icon-size-5"
-                            [svgIcon]="'feather:facebook'"></mat-icon>
-                    </button>
-                    <button
-                        class="flex-auto"
-                        type="button"
-                        mat-stroked-button>
-                        <mat-icon
-                            class="icon-size-5"
-                            [svgIcon]="'feather:twitter'"></mat-icon>
-                    </button>
-                    <button
-                        class="flex-auto"
-                        type="button"
-                        mat-stroked-button>
-                        <mat-icon
-                            class="icon-size-5"
-                            [svgIcon]="'feather:github'"></mat-icon>
-                    </button>
-                </div>
-            </form>
+<!--                &lt;!&ndash; Single sign-on buttons &ndash;&gt;-->
+<!--                <div class="flex items-center mt-8 space-x-4">-->
+<!--                    <button-->
+<!--                        class="flex-auto"-->
+<!--                        type="button"-->
+<!--                        mat-stroked-button>-->
+<!--                        <mat-icon-->
+<!--                            class="icon-size-5"-->
+<!--                            [svgIcon]="'feather:facebook'"></mat-icon>-->
+<!--                    </button>-->
+<!--                    <button-->
+<!--                        class="flex-auto"-->
+<!--                        type="button"-->
+<!--                        mat-stroked-button>-->
+<!--                        <mat-icon-->
+<!--                            class="icon-size-5"-->
+<!--                            [svgIcon]="'feather:twitter'"></mat-icon>-->
+<!--                    </button>-->
+<!--                    <button-->
+<!--                        class="flex-auto"-->
+<!--                        type="button"-->
+<!--                        mat-stroked-button>-->
+<!--                        <mat-icon-->
+<!--                            class="icon-size-5"-->
+<!--                            [svgIcon]="'feather:github'"></mat-icon>-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--            </form>-->
         </div>
     </div>
     <div class="relative hidden md:flex flex-auto items-center justify-center w-1/2 h-full p-16 lg:px-28 overflow-hidden bg-gray-800 dark:border-l">

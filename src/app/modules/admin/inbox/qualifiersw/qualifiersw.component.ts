@@ -52,24 +52,37 @@ export class QualifierswComponent implements OnInit,OnDestroy {
 
       this._sharedService.changeProduit(this._produits);
       this._changeDetectorRef.markForCheck();
+
+      this._releveBancaireService.getProduits().pipe(takeUntil(this._unsubscribeAll), debounceTime(300)).subscribe(
+          (data) => {
+              data.forEach((p) => {
+                  // console.log('Logging P ', p);
+                  this.listData = p.produitLabel;
+                  this._shownProduits.push(p);
+              });
+              // console.log('this._shownProduits ', this._shownProduits);
+              this._changeDetectorRef.markForCheck();
+              this.swTableLoaded = true;
+          }
+      );
   }
 
 
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-    addProduit(){
-        this._releveBancaireService.getProduits().pipe(takeUntil(this._unsubscribeAll), debounceTime(300)).subscribe(
-            (data) => {
-                data.forEach((p) => {
-                    // console.log('Logging P ', p);
-                    this.listData = p.produitLabel;
-                    this._shownProduits.push(p);
-                });
-                // console.log('this._shownProduits ', this._shownProduits);
-                this._changeDetectorRef.markForCheck();
-                this.swTableLoaded = true;
-            }
-        );
-    }
+    // addProduit(){
+    //     this._releveBancaireService.getProduits().pipe(takeUntil(this._unsubscribeAll), debounceTime(300)).subscribe(
+    //         (data) => {
+    //             data.forEach((p) => {
+    //                 // console.log('Logging P ', p);
+    //                 this.listData = p.produitLabel;
+    //                 this._shownProduits.push(p);
+    //             });
+    //             // console.log('this._shownProduits ', this._shownProduits);
+    //             this._changeDetectorRef.markForCheck();
+    //             this.swTableLoaded = true;
+    //         }
+    //     );
+    // }
 
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     onClick(element){

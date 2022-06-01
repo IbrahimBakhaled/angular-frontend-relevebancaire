@@ -1,9 +1,20 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    Inject,
+    Input,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { BooleanInput } from '@angular/cdk/coercion';
-import { Subject, takeUntil } from 'rxjs';
+import {filter, map, Observable, Subject, takeUntil} from 'rxjs';
 import { User } from 'app/core/user/user.types';
 import { UserService } from 'app/core/user/user.service';
+import {OKTA_AUTH, OktaAuthStateService} from '@okta/okta-angular';
+import {AuthState, OktaAuth} from '@okta/okta-auth-js';
 
 @Component({
     selector       : 'user',
@@ -20,6 +31,7 @@ export class UserComponent implements OnInit, OnDestroy
 
     @Input() showAvatar: boolean = true;
     user: User;
+    public isAuthenticated$!: Observable<boolean>;
 
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
@@ -29,7 +41,8 @@ export class UserComponent implements OnInit, OnDestroy
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
-        private _userService: UserService
+        private _userService: UserService,
+        private _oktaStateService: OktaAuthStateService, @Inject(OKTA_AUTH) private _oktaAuth: OktaAuth
     )
     {
     }
@@ -43,6 +56,11 @@ export class UserComponent implements OnInit, OnDestroy
      */
     ngOnInit(): void
     {
+        this.isAuthenticated$ = this._oktaStateService.authState$.pipe(
+            filter((s: AuthState) => !!s),
+            map((s: AuthState) => s.isAuthenticated ?? false)
+        );
+
         // Subscribe to user changes
         this._userService.user$
             .pipe(takeUntil(this._unsubscribeAll))
@@ -52,6 +70,15 @@ export class UserComponent implements OnInit, OnDestroy
                 // Mark for check
                 this._changeDetectorRef.markForCheck();
             });
+    }
+
+    public async signOut(): Promise<void> {
+        await this._oktaAuth.signOut();
+    }
+    public async signIn(): Promise<void> {
+        await this._oktaAuth.signInWithRedirect().then(
+            _ => this._router.navigate(['/api/upload'])
+        );
     }
 
     /**
@@ -91,8 +118,8 @@ export class UserComponent implements OnInit, OnDestroy
     /**
      * Sign out
      */
-    signOut(): void
-    {
-        this._router.navigate(['/sign-out']);
-    }
+    // signOut(): void
+    // {
+    //     this._router.navigate(['/sign-out']);
+    // }
 }

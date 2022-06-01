@@ -3,21 +3,31 @@ import { AuthGuard } from 'app/core/auth/guards/auth.guard';
 import { NoAuthGuard } from 'app/core/auth/guards/noAuth.guard';
 import { LayoutComponent } from 'app/layout/layout.component';
 import { InitialDataResolver } from 'app/app.resolvers';
+import {OktaAuthGuard, OktaCallbackComponent} from '@okta/okta-angular';
 
 // @formatter:off
 /* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 export const appRoutes: Route[] = [
-
-    // Redirect empty path to '/example'
+    { path: 'callback', component: OktaCallbackComponent},
     {path: '', pathMatch : 'full', redirectTo: 'api/upload'},
-
     // Redirect signed in user to the '/example'
-    //
     // After the user signs in, the sign in page will redirect the user to the 'signed-in-redirect'
     // path. Below is another redirection for that path to redirect the user to the desired
     // location. This is a small convenience to keep all main routes together here on this file.
     {path: 'signed-in-redirect', pathMatch : 'full', redirectTo: 'api/upload'},
+
+    // Landing routes
+    {
+        path: '',
+        component  : LayoutComponent,
+        data: {
+            layout: 'empty'
+        },
+        children   : [
+            {path: 'home', loadChildren: () => import('app/modules/landing/home/home.module').then(m => m.LandingHomeModule)},
+        ]
+    },
 
     // Auth routes for guests
     {
@@ -52,23 +62,12 @@ export const appRoutes: Route[] = [
         ]
     },
 
-    // Landing routes
-    {
-        path: '',
-        component  : LayoutComponent,
-        data: {
-            layout: 'empty'
-        },
-        children   : [
-            {path: 'home', loadChildren: () => import('app/modules/landing/home/home.module').then(m => m.LandingHomeModule)},
-        ]
-    },
 
     // Admin routes
     {
         path       : '',
-        canActivate: [AuthGuard],
-        canActivateChild: [AuthGuard],
+        canActivate: [OktaAuthGuard],
+        canActivateChild: [OktaAuthGuard],
         component  : LayoutComponent,
         resolve    : {
             initialData: InitialDataResolver,
@@ -79,8 +78,8 @@ export const appRoutes: Route[] = [
     },
     {
         path       : '',
-        canActivate: [AuthGuard],
-        canActivateChild: [AuthGuard],
+        canActivate: [OktaAuthGuard],
+        canActivateChild: [OktaAuthGuard],
         component  : LayoutComponent,
         resolve    : {
             initialData: InitialDataResolver,
@@ -88,5 +87,7 @@ export const appRoutes: Route[] = [
         children   : [
             {path: 'api/inbox', loadChildren: () => import('app/modules/admin/inbox/inbox.module').then(m => m.InboxModule)},
         ]
-    }
+    },
+
+
 ];

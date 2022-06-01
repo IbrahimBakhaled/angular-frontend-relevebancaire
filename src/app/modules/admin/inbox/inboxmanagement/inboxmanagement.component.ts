@@ -341,6 +341,7 @@ export class InboxmanagementComponent implements OnInit, OnDestroy {
       this._relebeBancaireService.postActeur(this._shownActeurs).subscribe(data => data);
       this._shownActeurs.length = 0;
       this._relebeBancaireService.postProduit(this._shownProduits).subscribe( data => data);
+      this._shownProduits.length = 0;
 
         this._changeDetectorRef.markForCheck();
     }
