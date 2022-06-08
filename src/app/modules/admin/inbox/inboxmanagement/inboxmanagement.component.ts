@@ -346,7 +346,7 @@ export class InboxmanagementComponent implements OnInit, OnDestroy {
         this._changeDetectorRef.markForCheck();
     }
     completeTask(): void {
-      // this._activitiWorkflowService.completeTask(this.task.taskId).subscribe(data => data);
+      this._activitiWorkflowService.completeTask(this.task.taskId).subscribe(data => data);
       this._changeDetectorRef.markForCheck();
     }
 

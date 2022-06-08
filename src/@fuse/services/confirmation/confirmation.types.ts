@@ -8,11 +8,6 @@ export interface FuseConfirmationConfig
         color?: 'primary' | 'accent' | 'warn' | 'basic' | 'info' | 'success' | 'warning' | 'error';
     };
     actions?: {
-        confirm?: {
-            show?: boolean;
-            label?: string;
-            color?: 'primary' | 'accent' | 'warn';
-        };
         cancel?: {
             show?: boolean;
             label?: string;

@@ -15,6 +15,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {FileData} from '../../../mock-api/common/filedata/file-data';
 import {debounceTime, Subject, switchMap, takeUntil, timer} from 'rxjs';
 import {ActivitiworkflowService} from '../../services/activitiworkflow.service';
+import {FuseConfirmationService} from '../../../../@fuse/services/confirmation';
 
 
 @Component({
@@ -37,6 +38,7 @@ export class UploadComponent implements OnDestroy
     _fileReader: any;
     fileUrl: any;
     cat = '';
+    configForm: FormGroup;
 
     recentTransactionsDataSource: MatTableDataSource<any> = new MatTableDataSource();
     csvRecords: any;
@@ -46,7 +48,10 @@ export class UploadComponent implements OnDestroy
     /**
      * Constructor
      */
-    constructor(public formBuilder: FormBuilder, private relevebancaireService: RelevebancaireService, private activitiWorkflowService: ActivitiworkflowService)
+    constructor(public formBuilder: FormBuilder,
+                private relevebancaireService: RelevebancaireService,
+                private activitiWorkflowService: ActivitiworkflowService,
+                private _fuseConfirmationService: FuseConfirmationService)
     {
     }
 
@@ -57,6 +62,24 @@ export class UploadComponent implements OnDestroy
 
         this.checkoutFormGroup = this.formBuilder.group( {
             relevebancaire: new FormControl('')
+        });
+
+        this.configForm = this.formBuilder.group({
+            title      : 'Fichier téléchargé',
+            message    : 'Vous avez téléchargé le releve bancaire avec succès, vérifiez la base de données mysql.',
+            icon       : this.formBuilder.group({
+                show : true,
+                name : 'heroicons_outline:badge-check',
+                color: 'success'
+            }),
+            actions    : this.formBuilder.group({
+
+                cancel : this.formBuilder.group({
+                    show : true,
+                    label: 'Fermer'
+                })
+            }),
+            dismissible: true
         });
     }
     trackByFn(index: number, item: any): any
@@ -175,12 +198,15 @@ export class UploadComponent implements OnDestroy
             switchMap(response => this.activitiWorkflowService.createPreccess(response.releveBancaireId).pipe(takeUntil(this._unsubscribeAll), debounceTime(3000)))
         )
         .subscribe({
-            next : (data: any) => data,
-            error: (err) => {
-                alert(`there was a problem: ${err.message}` );
-            }
+            next : (data: any) => data
         });
 
+        const dialogRef = this._fuseConfirmationService.open(this.configForm.value);
+
+        // Subscribe to afterClosed from the dialog reference
+        dialogRef.afterClosed().subscribe((result) => {
+            console.log(result);
+        });
     }
 
 

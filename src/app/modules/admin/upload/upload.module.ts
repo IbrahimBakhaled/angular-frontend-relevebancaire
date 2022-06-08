@@ -18,6 +18,8 @@ import {NgApexchartsModule} from 'ng-apexcharts';
 import {MatTableModule} from '@angular/material/table';
 import {CommonModule} from '@angular/common';
 import {MatSortModule} from '@angular/material/sort';
+import {FuseAlertModule} from '../../../../@fuse/components/alert';
+import { FuseConfirmationModule } from '@fuse/services/confirmation';
 
 const uploadRoutes: Route[] = [
     {
@@ -31,26 +33,28 @@ const uploadRoutes: Route[] = [
     declarations: [
         UploadComponent
     ],
-    imports: [
-        RouterModule.forChild(uploadRoutes),
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatOptionModule,
-        MatSelectModule,
-        MatListModule,
-        MatCheckboxModule,
-        MatRadioModule,
-        MatButtonModule,
-        MaterialFileInputModule,
-        MatTabsModule,
-        FuseCardModule,
-        MatMenuModule,
-        NgApexchartsModule,
-        MatTableModule,
-        CommonModule,
-        MatSortModule
-    ]
+  imports: [
+    RouterModule.forChild(uploadRoutes),
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatListModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatButtonModule,
+    MaterialFileInputModule,
+    MatTabsModule,
+    FuseCardModule,
+    MatMenuModule,
+    NgApexchartsModule,
+    MatTableModule,
+    CommonModule,
+    MatSortModule,
+    FuseAlertModule,
+    FuseConfirmationModule
+  ]
 })
 export class UploadModule
 {

@@ -16,11 +16,6 @@ export class FuseConfirmationService
             color: 'warn'
         },
         actions    : {
-            confirm: {
-                show : true,
-                label: 'Confirm',
-                color: 'warn'
-            },
             cancel : {
                 show : true,
                 label: 'Cancel'
